@@ -1,5 +1,5 @@
 /**
- * Sweeties - Three.js Intro Animation
+ * sweetART - Three.js Intro Animation
  * Heart smash sequence with Draco-compressed GLB models
  */
 

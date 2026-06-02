@@ -1,5 +1,5 @@
 /**
- * Sweeties - Main Site JavaScript
+ * sweetART - Main Site JavaScript
  */
 (function () {
     'use strict';
@@ -44,9 +44,9 @@
     const themeBtn = document.getElementById('theme-toggle');
     const applyMode = (mode) => {
         document.body.classList.toggle('light-mode', mode === 'light');
-        localStorage.setItem('sweeties-theme', mode);
+        localStorage.setItem('sweetart-theme', mode);
     };
-    applyMode(localStorage.getItem('sweeties-theme') || 'dark');
+    applyMode(localStorage.getItem('sweetart-theme') || 'dark');
     themeBtn.addEventListener('click', () => {
         applyMode(document.body.classList.contains('light-mode') ? 'dark' : 'light');
     });
@@ -54,12 +54,12 @@
     // ─── Color theme dots ─────────────────────────────────────────────────────
     const applyColor = (color) => {
         document.body.setAttribute('data-color', color);
-        localStorage.setItem('sweeties-color', color);
+        localStorage.setItem('sweetart-color', color);
         document.querySelectorAll('.cdot').forEach(d => {
             d.classList.toggle('active', d.dataset.color === color);
         });
     };
-    applyColor(localStorage.getItem('sweeties-color') || 'purple');
+    applyColor(localStorage.getItem('sweetart-color') || 'purple');
     document.querySelectorAll('.cdot').forEach(dot => {
         dot.addEventListener('click', () => applyColor(dot.dataset.color));
     });
