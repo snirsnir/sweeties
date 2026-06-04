@@ -1,5 +1,5 @@
 /**
- * sweetART - Main Site JavaScript
+ * sweeties - Main Site JavaScript
  */
 (function () {
     'use strict';
@@ -44,9 +44,9 @@
     const themeBtn = document.getElementById('theme-toggle');
     const applyMode = (mode) => {
         document.body.classList.toggle('light-mode', mode === 'light');
-        localStorage.setItem('sweetart-theme', mode);
+        localStorage.setItem('sweeties-theme', mode);
     };
-    applyMode(localStorage.getItem('sweetart-theme') || 'dark');
+    applyMode(localStorage.getItem('sweeties-theme') || 'dark');
     themeBtn.addEventListener('click', () => {
         applyMode(document.body.classList.contains('light-mode') ? 'dark' : 'light');
     });
@@ -54,12 +54,16 @@
     // ─── Color theme dots ─────────────────────────────────────────────────────
     const applyColor = (color) => {
         document.body.setAttribute('data-color', color);
-        localStorage.setItem('sweetart-color', color);
+        localStorage.setItem('sweeties-color', color);
         document.querySelectorAll('.cdot').forEach(d => {
             d.classList.toggle('active', d.dataset.color === color);
         });
+        const logoSrc = `logos/${color}.png`;
+        document.querySelectorAll('.intro-logo, .loading-logo, .logo-float img, .footer-logo').forEach(img => {
+            img.src = logoSrc;
+        });
     };
-    applyColor(localStorage.getItem('sweetart-color') || 'purple');
+    applyColor(localStorage.getItem('sweeties-color') || 'purple');
     document.querySelectorAll('.cdot').forEach(dot => {
         dot.addEventListener('click', () => applyColor(dot.dataset.color));
     });
@@ -222,7 +226,16 @@
         });
     });
 
-    // ─── Contact form → WhatsApp ───────────────────────────────────────────────
+    // ─── Phone auto-format XXX-XXXXXXX ───────────────────────────────────────
+    const phoneInput = document.getElementById('cf-phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', () => {
+            let digits = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+            phoneInput.value = digits.length > 3 ? digits.slice(0, 3) + '-' + digits.slice(3) : digits;
+        });
+    }
+
+    // ─── Contact form → Google Forms ─────────────────────────────────────────
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -237,9 +250,26 @@
                 return;
             }
 
-            const text = `שלום! 👋\nקוראים לי *${name}*\n📱 טלפון: ${phone}\n🛒 סוג הזמנה: ${type}${msg ? '\n💬 ' + msg : ''}`;
-            const url  = 'https://wa.me/972500000000?text=' + encodeURIComponent(text);
-            window.open(url, '_blank', 'noopener');
+            const formData = new FormData();
+            formData.append('entry.100282387', name);
+            formData.append('entry.67947579',  phone);
+            formData.append('entry.1269928289', type);
+            formData.append('entry.1569489097', msg);
+
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLScg6H_jcJlQ5H-Aq-qKkVoy-YjlRgKlavAqjonJgALrIC2YXw/formResponse', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            });
+
+            const wrap = contactForm.closest('.contact-form-wrap');
+            wrap.innerHTML = `
+                <div class="form-success">
+                    <div class="form-success-icon">💜</div>
+                    <h3>ההודעה נשלחה!</h3>
+                    <p>נחזור אליך בקרוב מאוד</p>
+                    <p class="form-success-thanks">תודה רבה!</p>
+                </div>`;
         });
     }
 
@@ -328,6 +358,9 @@
         spawnHearts();
         spawnHeroParticles();
         initReveal();
+        // הפעל סרטון רק אחרי שהאתר עולה
+        const heroVideo = document.getElementById('hero-video');
+        if (heroVideo) heroVideo.play().catch(() => {});
     }
 
     document.addEventListener('introComplete', initSite);

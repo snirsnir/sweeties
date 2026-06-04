@@ -1,5 +1,5 @@
 /**
- * sweetART - Three.js Intro Animation
+ * sweeties - Three.js Intro Animation
  * Heart smash sequence with Draco-compressed GLB models
  */
 
@@ -428,6 +428,7 @@ function triggerImpact() {
     const smashEl = document.getElementById('smash-text');
     smashEl.classList.add('boom');
     setTimeout(() => smashEl.classList.remove('boom'), 900);
+
 
     // Camera shake
     shakeAmount = 0.6;

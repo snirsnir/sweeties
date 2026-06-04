@@ -61,7 +61,7 @@ loader.setDRACOLoader(draco);
 let model = null;
 const clock = new THREE.Clock();
 
-loader.load('models/controller.glb', (gltf) => {
+loader.load('models/heart.glb', (gltf) => {
     model = gltf.scene;
 
     // Scale + centre
@@ -75,6 +75,9 @@ loader.load('models/controller.glb', (gltf) => {
     box.getCenter(centre);
     model.position.sub(centre.multiplyScalar(scale));
 
+    // אותו כיוון כמו ב-intro — פנים לצלמה
+    model.rotation.x = BASE_ROT_X;
+
     model.traverse(c => {
         if (c.isMesh) {
             c.castShadow = true;
@@ -83,13 +86,14 @@ loader.load('models/controller.glb', (gltf) => {
     });
 
     scene.add(model);
-}, undefined, (err) => console.warn('controller.glb:', err));
+}, undefined, (err) => console.warn('heart.glb:', err));
 
 // ── Interaction: long-press → free rotation with momentum ────
 let isRotating  = false;
 let longPressId = null;
 let lastX = 0, lastY = 0;
-let dragRotX = 0, dragRotY = 0;
+const BASE_ROT_X = Math.PI / 2;   // אותו orientation כמו ב-intro
+let dragRotX = BASE_ROT_X, dragRotY = 0;
 let velX = 0, velY = 0;          // אינרציה
 const DAMPING  = 0.90;            // כמה מהר עוצרת האינרציה
 const LERP     = 0.07;            // חלקות סיבוב בזמן גרירה
@@ -161,14 +165,14 @@ renderer.setAnimationLoop(() => {
             } else {
                 // ריחוף עדין
                 velX = 0; velY = 0;
-                // מחזיר בהדרגה לרוטציה הדיפולטית
-                dragRotX += (0 - dragRotX) * 0.015;
+                // מחזיר בהדרגה ל-orientation הדיפולטי
+                dragRotX += (BASE_ROT_X - dragRotX) * 0.015;
                 dragRotY += (0 - dragRotY) * 0.015;
                 model.position.y = Math.sin(t * 0.55) * 0.14;
                 model.position.x = Math.sin(t * 0.38) * 0.09;
+                model.rotation.x = dragRotX;
                 model.rotation.y = dragRotY + Math.sin(t * 0.30) * 0.10;
                 model.rotation.z = Math.sin(t * 0.45) * 0.04;
-                model.rotation.x = dragRotX;
             }
         }
     }

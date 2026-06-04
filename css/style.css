@@ -1,5 +1,5 @@
 /* ============================================================
-   sweetART - קופסאות ניפוץ | Main Stylesheet
+   sweeties - קופסאות ניפוץ | Main Stylesheet
    ============================================================ */
 
 /* ---------- Variables ---------- */
@@ -176,8 +176,9 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     transition: opacity .8s ease;
 }
 .loading-inner { text-align: center; }
-.loading-logo { width: 100px; margin: 0 auto 16px; filter: drop-shadow(0 0 20px var(--purple)); }
+.loading-logo { width: 150px; margin: 0 auto 16px; filter: drop-shadow(0 0 20px var(--purple)); }
 .loading-title { font-family: 'Allura', cursive; font-size: 3.2rem; font-weight: 400; letter-spacing: 3px; background: linear-gradient(135deg, var(--gold), var(--gold-l)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 24px; }
+.loading-hashtag { color: var(--purple-l); font-size: .95rem; font-weight: 600; letter-spacing: 2px; opacity: 0.8; margin-bottom: 20px; }
 .loading-bar-wrap { width: 240px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 0 auto 12px; overflow: hidden; }
 .loading-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--gold)); border-radius: 2px; transition: width .3s ease; }
 .loading-text { color: var(--text-dim); font-size: .9rem; }
@@ -192,7 +193,7 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     transition: opacity .5s ease;
 }
 .intro-brand { text-align: center; }
-.intro-logo { width: 110px; margin: 0 auto 14px; filter: drop-shadow(0 0 30px var(--purple)); }
+.intro-logo { width: 165px; margin: 0 auto 14px; filter: drop-shadow(0 0 30px var(--purple)); }
 .intro-site-title {
     font-family: 'Allura', cursive;
     font-size: 5rem; font-weight: 400; letter-spacing: 4px;
@@ -202,6 +203,13 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     filter: drop-shadow(0 0 20px rgba(212,175,55,0.5));
 }
 .intro-tagline { color: var(--text-dim); letter-spacing: 3px; font-size: 1rem; margin-top: 8px; }
+.intro-hashtag {
+    display: block;
+    color: var(--purple-l); font-size: 1rem; font-weight: 600;
+    letter-spacing: 3px; opacity: 0.85;
+    font-family: 'Heebo', sans-serif;
+    -webkit-text-fill-color: var(--purple-l);
+}
 
 #smash-hint {
     display: flex; align-items: center; gap: 10px;
@@ -292,8 +300,8 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
    HEADER / NAV
    ============================================================ */
 #header {
-    position: fixed; top: 22px; left: 0; right: 0; z-index: 1000;
-    padding: 14px 0;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 30px 0;
     transition: background .4s ease, backdrop-filter .4s ease, padding .4s ease, box-shadow .4s ease;
 }
 #header.scrolled {
@@ -315,13 +323,13 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     transform-origin: top right;
 }
 .logo-float img {
-    height: 96px;
+    height: 144px;
     animation: logoSparkle 7s ease-in-out infinite;
     transition: transform .4s cubic-bezier(.34,1.56,.64,1);
     transform-origin: top right;
     display: block;
 }
-.logo-float img:hover { transform: scale(2); }
+.logo-float img:hover { transform: scale(1.5); }
 
 .navbar {
     display: flex; align-items: center; justify-content: center;
@@ -439,6 +447,26 @@ body.light-mode .t-dark  { display: none; }
 }
 .hero-content { max-width: 560px; }
 
+/* Hero video column */
+.hero-video-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    transform-origin: center center;
+    will-change: transform;
+}
+.hero-video-col:hover {
+    transform: scale(1.20);
+}
+.hero-video-caption {
+    display: inline-block; padding: 6px 18px; border-radius: 50px;
+    border: 1px solid rgba(212,175,55,0.4); background: rgba(212,175,55,0.08);
+    color: var(--gold); font-size: .9rem; font-weight: 600;
+    text-align: center;
+}
+
 /* Hero video */
 .hero-video-wrap {
     position: relative;
@@ -447,12 +475,10 @@ body.light-mode .t-dark  { display: none; }
     aspect-ratio: 16 / 9;
     box-shadow: 0 20px 60px color-mix(in srgb, var(--purple) 40%, transparent),
                 0 0 0 2px var(--border);
-    transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease;
-    transform-origin: center center;
-    will-change: transform;
+    transition: box-shadow .4s ease;
+    width: 100%;
 }
-.hero-video-wrap:hover {
-    transform: scale(1.20);
+.hero-video-col:hover .hero-video-wrap {
     box-shadow: 0 30px 80px color-mix(in srgb, var(--purple) 55%, transparent),
                 0 0 0 2px var(--purple-l);
 }
@@ -469,16 +495,20 @@ body.light-mode .t-dark  { display: none; }
     box-shadow: inset 0 0 40px color-mix(in srgb, var(--purple) 25%, transparent);
     pointer-events: none;
 }
+.hero-badges {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;
+}
 .hero-badge {
     display: inline-block; padding: 6px 18px; border-radius: 50px;
     border: 1px solid rgba(212,175,55,0.4); background: rgba(212,175,55,0.08);
-    color: var(--gold); font-size: .9rem; font-weight: 600; margin-bottom: 24px;
+    color: var(--gold); font-size: .9rem; font-weight: 600;
 }
 .hero-title {
     font-size: clamp(2.4rem, 6vw, 4.2rem);
     font-weight: 900; line-height: 1.15;
     margin-bottom: 20px; color: var(--white);
 }
+.hero-title .outline-text { white-space: nowrap; }
 .hero-subtitle { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 36px; line-height: 1.8; }
 .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
 .hero-stats { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
@@ -836,6 +866,15 @@ body.light-mode .t-dark  { display: none; }
     border-radius: var(--radius); padding: 36px;
     backdrop-filter: blur(12px);
 }
+.form-success {
+    text-align: center; padding: 60px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.form-success-icon { font-size: 3rem; }
+.form-success h3 { font-size: 1.6rem; font-weight: 800; color: var(--white); }
+.form-success p { color: var(--text-dim); font-size: 1.05rem; }
+.form-success-thanks { color: var(--gold) !important; font-weight: 700; font-size: 1.1rem !important; }
+
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; font-size: .9rem; font-weight: 600; color: var(--white); margin-bottom: 8px; }
 .form-group input,
@@ -864,7 +903,7 @@ body.light-mode .t-dark  { display: none; }
 #footer { background: var(--bg2); border-top: 1px solid var(--border); }
 .footer-top { padding: 60px 0 40px; }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
-.footer-logo { height: 52px; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--purple)); }
+.footer-logo { height: 78px; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--purple)); }
 .footer-site-name { font-size: 1.6rem; font-weight: 900; letter-spacing: 4px; background: linear-gradient(135deg, var(--gold), var(--gold-l)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
 .footer-brand p { color: var(--text-dim); font-size: .9rem; line-height: 1.7; margin-bottom: 20px; }
 .footer-socials { display: flex; gap: 12px; }
@@ -971,7 +1010,7 @@ body.light-mode .t-dark  { display: none; }
     .about-features { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; }
     .hero-inner { grid-template-columns: 1fr; gap: 36px; }
-    .hero-video-wrap { max-width: 340px; margin: 0 auto; }
+    .hero-video-col { max-width: 340px; margin: 0 auto; }
     .hero-content { max-width: 100%; }
     .hero-buttons { flex-direction: column; }
     .hero-stats { gap: 16px; }
@@ -980,7 +1019,7 @@ body.light-mode .t-dark  { display: none; }
 
     #floating-social { bottom: 20px; right: 14px; }
     .float-label { display: none; }
-    .logo-float img { height: 72px; }
+    .logo-float img { height: 108px; }
     .logo-float { top: 8px; right: 12px; left: auto; }
 }
 
