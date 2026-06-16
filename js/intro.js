@@ -103,7 +103,7 @@ let autoTimer    = 0;
 let modelsLoaded = 0;
 
 // Hammer arc swing — pivot above heart, arm rotates down
-const PIVOT       = new THREE.Vector3(0, 2.4, 0.2);
+const PIVOT       = new THREE.Vector3(0, 1.8, 0.2);
 const ARM_LEN     = 2.8;
 const ANGLE_IDLE  = 0.65;   // radians — hammer close to heart, tilted right
 
@@ -151,7 +151,7 @@ loader.load('models/heart.glb', (gltf) => {
     box.getCenter(centre);
     heartModel.position.sub(centre.multiplyScalar(scale));
     // Small upward nudge so it sits nicely in frame
-    heartModel.position.y += 0.15;
+    heartModel.position.y -= 0.45;
 
     heartModel.traverse(c => {
         if (c.isMesh) {
@@ -245,10 +245,10 @@ function checkReady() {
         setTimeout(() => {
             overlay.style.display = 'none';
             const ui = document.getElementById('intro-ui');
-            ui.style.transition = 'opacity .8s ease';
-            ui.style.opacity = '1';
+            if (ui) { ui.style.transition = 'opacity .6s ease'; ui.style.opacity = '1'; }
             state = STATE.IDLE;
-            autoTimer = 0;
+            // ניפוץ אוטומטי — קצר רגע כדי שהמצב יתייצב לפני שמתחיל
+            setTimeout(() => startSwing(), 600);
         }, 800);
     }, 400);
 }
@@ -457,10 +457,6 @@ function startSwing() {
     state = STATE.SWINGING;
     swingT = 0;
     impactDone = false;
-    const hint = document.getElementById('smash-hint');
-    if (hint) hint.style.opacity = '0';
-    const ui = document.getElementById('intro-ui');
-    if (ui) ui.style.opacity = '0';
 }
 
 // Make skip / click handlers available globally
@@ -507,7 +503,7 @@ renderer.setAnimationLoop(() => {
     // ── IDLE ──
     if (state === STATE.IDLE && heartModel) {
         heartModel.rotation.z  = Math.sin(elapsed * 0.7) * 0.04;
-        heartModel.position.y  = Math.sin(elapsed * 1.0) * 0.12;
+        heartModel.position.y  = -0.45 + Math.sin(elapsed * 1.0) * 0.12;
         heartModel.position.x  = Math.sin(elapsed * 0.6) * 0.08;
 
         // פטיש מרחף קרוב ללב עם תנודה קטנה
@@ -517,8 +513,6 @@ renderer.setAnimationLoop(() => {
             hammerModel.rotation.set(0, Math.sin(elapsed * 0.6) * 0.06, idleAngle);
         }
 
-        autoTimer += delta;
-        if (autoTimer > 7) startSwing();
 
         goldLight.intensity   = 3.5 + Math.sin(elapsed * 1.5) * 1.0;
         purpleLight.intensity = 2.5 + Math.cos(elapsed * 1.2) * 0.8;

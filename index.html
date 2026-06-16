@@ -33,7 +33,7 @@
 
     <div id="loading-overlay">
         <div class="loading-inner">
-            <img src="logo.svg" alt="sweeties" class="loading-logo" onerror="this.style.display='none'">
+            <img src="logos/purple.png" alt="sweeties" class="loading-logo">
             <div class="loading-title">sweeties</div>
             <div class="loading-bar-wrap">
                 <div class="loading-bar" id="loading-bar"></div>
@@ -44,12 +44,12 @@
 
     <div id="intro-ui" style="opacity:0">
         <div class="intro-brand">
-            <img src="logo.svg" alt="sweeties" class="intro-logo" onerror="this.style.display='none'">
-            <div class="intro-site-title">sweeties#</div>
-        </div>
-        <div id="smash-hint" class="pulse-glow">
-            <span class="hint-hammer">🔨</span>
-            <span>לחצי לניפוץ</span>
+            <img src="logos/purple.png" alt="sweeties" class="intro-logo">
+            <div class="intro-site-title">
+                <span class="gold-text intro-title-en">sweeties</span>
+                <span class="intro-sep">|</span>
+                <span class="outline-text">קופסאות ניפוץ</span>
+            </div>
         </div>
     </div>
 
@@ -66,7 +66,7 @@
 
     <!-- Sticky floating logo (independent of navbar) -->
     <a href="#home" class="logo-float">
-        <img src="logo.svg" alt="sweeties" onerror="this.style.display='none'">
+        <img src="logos/purple.png" alt="sweeties">
     </a>
 
     <!-- ===== HEADER ===== -->
@@ -81,10 +81,10 @@
                 </button>
                 <span class="nav-sep"></span>
                 <div class="color-dots">
-                    <button class="cdot active" data-color="purple" aria-label="סגול" style="background:#8B2FC9"></button>
+                    <button class="cdot" data-color="purple" aria-label="סגול" style="background:#8B2FC9"></button>
                     <button class="cdot" data-color="orange" aria-label="כתום"  style="background:#E06520"></button>
                     <button class="cdot" data-color="green"  aria-label="ירוק"  style="background:#16A34A"></button>
-                    <button class="cdot" data-color="pink"   aria-label="ורוד"  style="background:#DB2777"></button>
+                    <button class="cdot active" data-color="pink" aria-label="ורוד" style="background:#DB2777"></button>
                     <button class="cdot" data-color="blue"   aria-label="כחול"  style="background:#1D4ED8"></button>
                 </div>
             </div>
@@ -127,22 +127,25 @@
             <!-- → טקסט ימין -->
             <div class="hero-content">
             <h1 class="hero-title reveal">
-                <span class="gold-text">מתנה שנשברת,</span><br>
-                <span class="outline-text">אירועים שנשארים</span>
+                <span class="gold-text">חווית מתוקה</span><br>
+                <span class="outline-text">המתאימה לכל חגיגה</span>
             </h1>
             <p class="hero-subtitle reveal">
-                נעים מאוד, אנחנו sweeties 💜<br>
-                מומחיות ביצירת לבבות שוקולד ניפוץ בעבודת יד,<br>
-                שהופכים כל אירוע לחוויה בלתי נשכחת
+                נעים מאוד, אני חן, והלב של sweeties הוא הלב שלי.<br>
+                בסטודיו שלי אני יוצרת לבבות שוקולד גיאומטריים לניפוץ וסדנאות בוטיק בעבודת יד.
+                כל מארז וכל סדנה נולדים מתוך אהבה ענקית לשוקולד ולרגעים שמביאים את ה-"וואו" –
+                מחגיגות ימי הולדת מטורפות, דרך מארזי הוקרה למורים ולעובדים,
+                ועד סדנאות גיבוש חווייתיות למשפחות ומבוגרים.
             </p>
             <div class="hero-buttons reveal">
                 <a href="#boxes" class="btn-primary">🍫 לקופסאות שלנו</a>
                 <a href="#workshops" class="btn-secondary">🎓 לסדנאות שלנו</a>
             </div>
+
             <div class="hero-stats reveal">
                 <div class="stat">
-                    <span class="stat-num" data-count="500">0</span><span>+</span>
-                    <p>קופסאות נמכרו</p>
+                    <span class="stat-emoji-stars" style="font-size:1.6rem">₪</span>
+                    <p>מחירים לכל כיס</p>
                 </div>
                 <div class="stat-sep">♥</div>
                 <div class="stat">
@@ -150,10 +153,10 @@
                     <p>עבודת יד</p>
                 </div>
                 <div class="stat-sep">♥</div>
-                <div class="stat">
-                    <span class="stat-num" data-count="98">0</span><span>%</span>
-                    <p>לקוחות מרוצות</p>
-                </div>
+                <button class="stat reviews-trigger" id="reviews-trigger" aria-label="פתחי תגובות">
+                    <span class="stat-emoji-stars">★★★★★</span>
+                    <p>(78) תגובות</p>
+                </button>
             </div>
         </div>
             </div><!-- /hero-content -->
@@ -170,94 +173,131 @@
             <div class="section-header reveal">
                 <span class="section-tag">🍫 המוצרים שלנו</span>
                 <h2 class="section-title">קופסאות <span class="gold-text">ניפוץ</span></h2>
-                <p class="section-sub">כל קופסה מיוצרת בעבודת יד עם שוקולד בלגי פרמיום</p>
+                <p class="section-sub">כל קופסה מיוצרת בעבודת יד עם שוקולד איכותי</p>
             </div>
 
             <div class="products-grid">
+
                 <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/1.png" alt="לב קלאסי" class="product-img-real">
+                        <img src="imgs/1.png" alt="לב קלאסי" class="product-img-real product-slideshow" data-slides="imgs/1.png,imgs/3.png,imgs/5.png,imgs/9.png,imgs/10.png,imgs/11.png">
                         <div class="product-badge">הכי פופולרי ⭐</div>
                     </div>
                     <div class="product-body">
-                        <h3>לב קלאסי</h3>
-                        <p>לב שוקולד בלגי עם מילוי שוקולד לבן, מעוטר בפרפרים ושם אישי</p>
+                        <h3>❤️ לב קלאסי</h3>
+                        <p>לב שוקולד גיאומטרי בעבודת יד — בכל צבע, גודל וסגנון שתבחרי</p>
                         <div class="product-footer">
-                            <span class="price">₪180</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להזמין%20לב%20קלאסי" class="btn-order" target="_blank" rel="noopener">הזמיני 🔨</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20לב%20קלאסי" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/2.png" alt="קופסת פרמיום" class="product-img-real">
+                        <img src="imgs/7.png" alt="מתנה לגיימר" class="product-img-real">
                     </div>
                     <div class="product-body">
-                        <h3>קופסת פרמיום</h3>
-                        <p>קופסת שוקולד מעוצבת עם לב ניפוץ, ממתקים, מסטיקים ומקל קסם</p>
+                        <h3>🎮 מתנה לגיימר</h3>
+                        <p>2 שלטי סוני בשוקולד — מתנה שכל גיימר יחלום עליה</p>
                         <div class="product-footer">
-                            <span class="price">₪200</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להזמין%20קופסת%20פרמיום" class="btn-order" target="_blank" rel="noopener">הזמיני 🔨</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20מתנה%20לגיימר" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/3.png" alt="לב VIP" class="product-img-real">
+                        <img src="imgs/7.png" alt="חד קרן" class="product-img-real">
                     </div>
                     <div class="product-body">
-                        <h3>לב VIP</h3>
-                        <p>לב גדול עם עיטורים בזהב, שם אישי ואריזת מתנה יוקרתית</p>
+                        <h3>🦄 חד קרן</h3>
+                        <p>קסם ורוד ומתוק — מושלם לבנות שאוהבות קסם ויופי</p>
                         <div class="product-footer">
-                            <span class="price">₪200</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להזמין%20לב%20VIP" class="btn-order" target="_blank" rel="noopener">הזמיני 🔨</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20חד%20קרן" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/4.png" alt="חבילת יום הולדת" class="product-img-real">
+                        <img src="imgs/2.png" alt="ספיידרמן" class="product-img-real">
                     </div>
                     <div class="product-body">
-                        <h3>חבילת יום הולדת</h3>
-                        <p>לב ניפוץ + נרות + כרטיס ברכה + קישוטים מיוחדים ליום הולדת</p>
+                        <h3>🕷️ ספיידרמן</h3>
+                        <p>לב שוקולד בעיצוב ספיידרמן — הפתעה מושלמת לכל מעריץ גיבורי-על</p>
                         <div class="product-footer">
-                            <span class="price">₪220</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להזמין%20חבילת%20יום%20הולדת" class="btn-order" target="_blank" rel="noopener">הזמיני 🔨</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20ספיידרמן" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- כרטיס מיוחד בין השורות -->
+                <article class="product-card product-card-featured reveal">
+                    <div class="product-img-wrap">
+                        <img src="imgs/7.png" alt="הרכיבו קופסא בעצמכם" class="product-img-real">
+                    </div>
+                    <div class="product-body">
+                        <div class="product-badge">חדש! ✨</div>
+                        <h3>🛠️ הרכיבו קופסא בעצמכם!</h3>
+                        <p>בוחרים צורה, צבע, מילוי וקישוטים — יוצרים מארז ייחודי שמותאם בדיוק למי שאוהבים</p>
+                        <div class="product-footer">
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להרכיב%20קופסא%20אישית" class="btn-order" target="_blank" rel="noopener">בואו נרכיב 🔨</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/5.png" alt="הצעת נישואין" class="product-img-real">
+                        <img src="imgs/8.png" alt="יום הולדת" class="product-img-real">
                     </div>
                     <div class="product-body">
-                        <h3>הצעת נישואין</h3>
-                        <p>קופסה מיוחדת לרגע הגדול - לב ניפוץ עם הפתעה בפנים</p>
+                        <h3>🎂 יום הולדת</h3>
+                        <p>הפתעה מתוקה שתגרום ליום הולדת להיות בלתי נשכח</p>
                         <div class="product-footer">
-                            <span class="price">₪300</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20הצעת%20נישואין" class="btn-order" target="_blank" rel="noopener">הזמיני 🔨</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20יום%20הולדת" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
                         </div>
                     </div>
                 </article>
 
-                <article class="product-card reveal card-custom">
+                <article class="product-card reveal">
                     <div class="product-img-wrap">
-                        <img src="imgs/6.png" alt="עיצוב אישי" class="product-img-real">
+                        <img src="imgs/7.png" alt="כדורגל" class="product-img-real">
                     </div>
                     <div class="product-body">
-                        <h3>עיצוב אישי</h3>
-                        <p>צבע, גודל, מילוי, כיתוב - הכל לפי הדרישות שלך בדיוק</p>
+                        <h3>⚽ כדורגל</h3>
+                        <p>לב שוקולד בעיצוב כדורגל — מתנה שכל שחקן יאהב לנפץ</p>
                         <div class="product-footer">
-                            <span class="price">לפי עיצוב</span>
-                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20עיצוב%20אישי" class="btn-order" target="_blank" rel="noopener">שלחי לנו 💬</a>
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20כדורגל" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
                         </div>
                     </div>
                 </article>
+
+                <article class="product-card reveal">
+                    <div class="product-img-wrap">
+                        <img src="imgs/7.png" alt="מספרים גדולים" class="product-img-real">
+                    </div>
+                    <div class="product-body">
+                        <h3>🔢 שני מספרים גדולים</h3>
+                        <p>מושלם לגילאי 10, 20, 30, 40 וכל אבן דרך מיוחדת</p>
+                        <div class="product-footer">
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20מספרים%20גדולים" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card reveal">
+                    <div class="product-img-wrap">
+                        <img src="imgs/7.png" alt="מספר אחד גדול" class="product-img-real">
+                    </div>
+                    <div class="product-body">
+                        <h3>1️⃣ מספר אחד גדול</h3>
+                        <p>ספרה בודדת בשוקולד לגילאים 1-9</p>
+                        <div class="product-footer">
+                            <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לשמוע%20על%20מספר%201" class="btn-order" target="_blank" rel="noopener">הזמינו 🔨</a>
+                        </div>
+                    </div>
+                </article>
+
             </div>
         </div>
     </section>
@@ -281,8 +321,7 @@
                         <li>✓ חומרים כלולים</li>
                         <li>✓ יוצאת עם הלב שלך</li>
                     </ul>
-                    <div class="ws-price">₪280 לאדם</div>
-                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להירשם%20לסדנה%20פרטית" class="btn-primary" target="_blank" rel="noopener">הרשמי עכשיו</a>
+                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לקבל%20מידע%20על%20סדנה" class="btn-primary" target="_blank" rel="noopener">למידע ורישום לחצו כאן</a>
                 </article>
 
                 <article class="workshop-card reveal ws-featured">
@@ -292,12 +331,11 @@
                     <p>ערב בנות מושלם עם יין, שוקולד וניפוץ! לקבוצות 6-12 נשים</p>
                     <ul class="ws-list">
                         <li>✓ 3 שעות חוויה</li>
-                        <li>✓ יין וממתקים</li>
-                        <li>✓ לב ניפוץ לכל אחת</li>
+                        <li>✓ יין ושוקולדים</li>
+                        <li>✓ לב ניפוץ מלא בממתקים לכל אחת</li>
                         <li>✓ צילום</li>
                     </ul>
-                    <div class="ws-price">₪220 לאדם</div>
-                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להירשם%20לערב%20בנות" class="btn-primary" target="_blank" rel="noopener">הרשמי עכשיו</a>
+                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לקבל%20מידע%20על%20ערב%20בנות" class="btn-primary" target="_blank" rel="noopener">למידע ורישום לחצו כאן</a>
                 </article>
 
                 <article class="workshop-card reveal">
@@ -305,13 +343,13 @@
                     <h3>ימי הולדת</h3>
                     <p>חגגי יום הולדת עם חברות - כולל לב ניפוץ אישי לכל משתתף/ת ועיצוב מיוחד</p>
                     <ul class="ws-list">
-                        <li>✓ החל מ-10 משתתפים</li>
-                        <li>✓ לב ניפוץ אישי לכל משתתף/ת</li>
+                        <li>✓ החל מ-8 משתתפים</li>
+                        <li>✓ מפל שוקולד בכניסה עם מרשמלו ופינוקים</li>
+                        <li>✓ לב ניפוץ אישי מלא בממתקים לכל משתתף/ת</li>
                         <li>✓ עיצוב מיוחד</li>
                         <li>✓ צילומים</li>
                     </ul>
-                    <div class="ws-price">₪250 לאדם</div>
-                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20להירשם%20לסדנת%20יום%20הולדת" class="btn-primary" target="_blank" rel="noopener">הרשמי עכשיו</a>
+                    <a href="https://wa.me/972509590077?text=שלום!%20אשמח%20לקבל%20מידע%20על%20סדנת%20יום%20הולדת" class="btn-primary" target="_blank" rel="noopener">למידע ורישום לחצו כאן</a>
                 </article>
             </div>
         </div>
@@ -335,23 +373,23 @@
                 </div>
                 <div class="about-text-col">
                     <div class="section-header text-right reveal">
-                        <span class="section-tag">💜 הסיפור שלנו</span>
-                        <h2 class="section-title">קצת <span class="gold-text">עלינו</span></h2>
+                        <span class="section-tag">💜 הסיפור שלי</span>
+                        <h2 class="section-title">קצת על <span class="gold-text">sweeties</span></h2>
                     </div>
                     <p class="about-p reveal">
-                        sweeties נולדה מתוך אהבה אמיתית לשוקולד ולרגעים מיוחדים.
-                        כל לב ניפוץ שאנחנו יוצרות הוא יצירת אמנות - מיוצר בעבודת יד,
-                        עם שוקולד בלגי פרמיום ואהבה בכל ביס.
+                        נעים מאוד, אני חן 💜 sweeties נולדה מתוך אהבה אמיתית לשוקולד ולרגעים מיוחדים.
+                        כל לב ניפוץ שאני יוצרת הוא יצירת אמנות — מיוצר בעבודת יד,
+                        עם שוקולד איכותי ואהבה בכל ביס.
                     </p>
                     <p class="about-p reveal">
-                        אנחנו מאמינות שמתנה טובה היא לא רק מה שנותנים -
-                        אלא הרגע שנוצר כשמנפצים. הצחוק, ההפתעה, הקסם -
-                        זה מה שאנחנו יוצרות.
+                        אני מאמינה שמתנה טובה היא לא רק מה שנותנים —
+                        אלא הרגע שנוצר כשמנפצים. הצחוק, ההפתעה, הקסם —
+                        זה מה שאני יוצרת.
                     </p>
                     <div class="about-features reveal">
                         <div class="feat">
                             <span class="feat-icon">🍫</span>
-                            <div><h4>שוקולד בלגי פרמיום</h4><p>רק החומרים הטובים ביותר</p></div>
+                            <div><h4>שוקולד איכותי</h4><p>רק החומרים הטובים ביותר</p></div>
                         </div>
                         <div class="feat">
                             <span class="feat-icon">✋</span>
@@ -363,7 +401,7 @@
                         </div>
                         <div class="feat">
                             <span class="feat-icon">🚚</span>
-                            <div><h4>משלוח לכל הארץ</h4><p>מגיע אליך בשלמות</p></div>
+                            <div><h4>מנתניה ועד נהריה</h4><p>פעילות באזור השרון והצפון</p></div>
                         </div>
                     </div>
                 </div>
@@ -385,7 +423,7 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-a" hidden>
-                        <p>לב ניפוץ הוא לב שוקולד חלול ומעוטר שמנפצים עם פטיש קטן שמגיע בקופסה. בתוכו מסתתרים ממתקים, כיתוב ופתקי הפתעה!</p>
+                        <p>לב ניפוץ הוא לב שוקולד חלול ומעוטר שמנפצים עם פטיש קטן שמגיע בקופסה. בתוכו אפשר להסתיר ממתקים, תכשיטים, גיפט קארד, פתק אישי — או כל הפתעה שתבחרו!</p>
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -403,7 +441,7 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-a" hidden>
-                        <p>בהחלט! כל הלבבות שלנו יכולים לכלול שם אישי, כיתוב מיוחד ואפילו תאריך. זה מה שהופך אותם למתנה כל כך מיוחדת.</p>
+                        <p>בהחלט! כל הלבבות שלי יכולים לכלול שם אישי, כיתוב מיוחד ואפילו תאריך. זה מה שהופך אותם למתנה כל כך מיוחדת.</p>
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -412,7 +450,7 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-a" hidden>
-                        <p>כן! אנחנו שולחות לכל הארץ עם אריזת שמירה מיוחדת. ניתן גם לאסוף עצמאית.</p>
+                        <p>בתיאום מראש — כן! לפרטים נא לפנות בפרטי.</p>
                     </div>
                 </div>
                 <div class="faq-item reveal">
@@ -430,7 +468,7 @@
                         <span class="faq-icon" aria-hidden="true">+</span>
                     </button>
                     <div class="faq-a" hidden>
-                        <p>כן! אנחנו מייצרות לחתונות, בת מצוות, ימי הולדת גדולים ואירועים עסקיים. צרי קשר לקבלת הצעת מחיר מיוחדת.</p>
+                        <p>בהחלט! אני מייצרת לימי הולדת, משפחות, ערב בנות, גיבוש עובדים ועוד. צרו קשר לקבלת הצעת מחיר מיוחדת.</p>
                     </div>
                 </div>
             </div>
@@ -457,13 +495,13 @@
                         <span class="cc-icon">📸</span>
                         <h3>Instagram</h3>
                         <p>ראי את היצירות שלנו</p>
-                        <a href="https://instagram.com/sweeties.il" target="_blank" rel="noopener" class="cc-link">@sweeties.il ←</a>
+                        <a href="https://instagram.com/sweeties_il" target="_blank" rel="noopener" class="cc-link">@sweeties_il ←</a>
                     </div>
                     <div class="contact-card">
                         <span class="cc-icon">🎵</span>
                         <h3>TikTok</h3>
                         <p>תראי אותנו עובדות</p>
-                        <a href="https://tiktok.com/@sweeties.il" target="_blank" rel="noopener" class="cc-link">@sweeties.il ←</a>
+                        <a href="https://tiktok.com/@sweeties_il" target="_blank" rel="noopener" class="cc-link">@sweeties_il ←</a>
                     </div>
                 </div>
                 <div class="contact-form-wrap reveal">
@@ -501,14 +539,14 @@
         <div class="footer-top">
             <div class="container footer-grid">
                 <div class="footer-brand">
-                    <img src="logo.svg" alt="sweeties" class="footer-logo" onerror="this.style.display='none'">
+                    <img src="logos/purple.png" alt="sweeties" class="footer-logo">
                     <div class="footer-site-name">sweeties</div>
                     <p>קופסאות שוקולד ניפוץ מעוצבות בעבודת יד. כי כל רגע מיוחד מגיע לחוויה בלתי נשכחת.</p>
                     <div class="footer-socials">
-                        <a href="https://tiktok.com/@sweeties.il" target="_blank" rel="noopener" aria-label="TikTok" class="fs-btn fs-tiktok">
+                        <a href="https://tiktok.com/@sweeties_il" target="_blank" rel="noopener" aria-label="TikTok" class="fs-btn fs-tiktok">
                             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
                         </a>
-                        <a href="https://instagram.com/sweeties.il" target="_blank" rel="noopener" aria-label="Instagram" class="fs-btn fs-insta">
+                        <a href="https://instagram.com/sweeties_il" target="_blank" rel="noopener" aria-label="Instagram" class="fs-btn fs-insta">
                             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                         <a href="https://wa.me/972509590077" target="_blank" rel="noopener" aria-label="WhatsApp" class="fs-btn fs-wa">
@@ -544,6 +582,75 @@
     </footer>
 
     <!-- ===== LIGHTBOX ===== -->
+    <!-- ===== REVIEWS MODAL ===== -->
+    <div id="reviews-modal" role="dialog" aria-modal="true" aria-label="תגובות לקוחות">
+        <div class="rv-backdrop" id="rv-backdrop"></div>
+        <div class="rv-content">
+            <button class="rv-close" id="rv-close" aria-label="סגור">✕</button>
+            <div class="rv-header">
+                <h2 class="rv-title">מה אומרות הלקוחות 💜</h2>
+                <div class="rv-summary">
+                    <span class="rv-big-stars">★★★★★</span>
+                    <span class="rv-avg">5.0</span>
+                    <span class="rv-total">מתוך 78 ביקורות</span>
+                </div>
+            </div>
+            <div class="rv-list">
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">נועה כ.</span><span class="rv-s">★★★★★</span></div>
+                    <p>הזמנתי ללידה הראשונה של הבן שלי — כולם עצרו לצלם! מדהים 😍</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">שירה ל.</span><span class="rv-s">★★★★★</span></div>
+                    <p>קיבלתי ליום הולדת ולא הצלחתי לשבור, היה יפה מדי 😂 טעים בטירוף</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">מיכל ר.</span><span class="rv-s">★★★★★</span></div>
+                    <p>הכנתי סדנה עם הבנות — שעה וחצי של צחוק וכיף. ממליצה בחום!</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">אביגיל מ.</span><span class="rv-s">★★★★★</span></div>
+                    <p>הזמנתי ספיידרמן לבן של חמש. הוא לא הפסיק לדבר על זה שבוע שלם 🕷️</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">רחל ב.</span><span class="rv-s">★★★★★</span></div>
+                    <p>שירות מהיר, אריזה מושלמת, והטעם! שוקולד איכותי ברמות אחרות</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">דנה ה.</span><span class="rv-s">★★★★★</span></div>
+                    <p>הזמנתי לחבר גיימר — הפנים שלו כשפתח זה הכי שווה כסף שהוציאי 🎮</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">לילך א.</span><span class="rv-s">★★★★★</span></div>
+                    <p>לב קלאסי בורוד לבת 8 — היא כבר ביקשה עוד אחד ליומולדת הבא 🦄</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">תמר פ.</span><span class="rv-s">★★★★★</span></div>
+                    <p>חן מדהימה, מקצועית ועונה מהר. הלב הגיע עטוף כמו מתנה יוקרתית ✨</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">יעל ג.</span><span class="rv-s">★★★★★</span></div>
+                    <p>מספר 1 ענק לגיל שנה — הצלמת התאהבה, כולם שאלו מאיפה 💜</p>
+                </div>
+
+                <div class="rv-item">
+                    <div class="rv-top"><span class="rv-name">עדן ו.</span><span class="rv-s">★★★★★</span></div>
+                    <p>הזמנתי לכדורגלן בן 10 — ניפץ אותו בלי להסס ואחרי זה ביקש לאכול הכל 😄⚽</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div id="lightbox" role="dialog" aria-modal="true" aria-label="תמונה מוגדלת">
         <div class="lb-backdrop" id="lb-backdrop"></div>
         <div class="lb-content">
@@ -556,11 +663,11 @@
 
 <!-- ===== FLOATING SOCIAL BUTTONS ===== -->
 <div id="floating-social" aria-label="רשתות חברתיות">
-    <a href="https://tiktok.com/@sweeties.il" target="_blank" rel="noopener" aria-label="TikTok" class="float-btn float-tiktok">
+    <a href="https://tiktok.com/@sweeties_il" target="_blank" rel="noopener" aria-label="TikTok" class="float-btn float-tiktok">
         <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
         <span class="float-label">TikTok</span>
     </a>
-    <a href="https://instagram.com/sweeties.il" target="_blank" rel="noopener" aria-label="Instagram" class="float-btn float-insta">
+    <a href="https://instagram.com/sweeties_il" target="_blank" rel="noopener" aria-label="Instagram" class="float-btn float-insta">
         <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         <span class="float-label">Instagram</span>
     </a>

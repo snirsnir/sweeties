@@ -187,21 +187,21 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 #intro-ui {
     position: absolute; inset: 0; z-index: 5;
     display: flex; flex-direction: column;
-    align-items: center; justify-content: space-between;
-    padding: 10vh 0 22vh;
+    align-items: center; justify-content: flex-start;
+    padding: 4vh 0 0;
     pointer-events: none;
     transition: opacity .5s ease;
 }
 .intro-brand { text-align: center; }
 .intro-logo { width: 165px; margin: 0 auto 14px; filter: drop-shadow(0 0 30px var(--purple)); }
 .intro-site-title {
-    font-family: 'Allura', cursive;
-    font-size: 5rem; font-weight: 400; letter-spacing: 4px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-l) 50%, var(--gold) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 20px rgba(212,175,55,0.5));
+    font-family: 'Heebo', sans-serif;
+    font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 900; line-height: 1.15;
+    letter-spacing: 1px; text-align: center; white-space: nowrap;
+    filter: drop-shadow(0 0 20px rgba(212,175,55,0.4));
 }
+.intro-sep { color: var(--gold); opacity: 0.6; margin: 0 10px; font-weight: 300; }
+.intro-title-en { font-family: 'Allura', cursive; font-weight: 400; font-size: 1.3em; letter-spacing: 3px; }
 .intro-tagline { color: var(--text-dim); letter-spacing: 3px; font-size: 1rem; margin-top: 8px; }
 .intro-hashtag {
     display: block;
@@ -311,9 +311,9 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     box-shadow: 0 2px 30px rgba(80, 0, 140, 0.3);
 }
 @keyframes logoSparkle {
-    0%,100% { filter: drop-shadow(0 0 6px rgba(212,175,55,.45)) drop-shadow(0 0 12px rgba(139,47,201,.2)); }
-    40%      { filter: drop-shadow(0 0 14px rgba(212,175,55,.7)) drop-shadow(0 0 22px rgba(255,215,0,.35)) brightness(1.1); }
-    70%      { filter: drop-shadow(0 0 10px rgba(255,255,255,.35)) drop-shadow(0 0 18px rgba(212,175,55,.55)) brightness(1.06); }
+    0%,100% { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold) 45%, transparent)) drop-shadow(0 0 12px color-mix(in srgb, var(--purple) 20%, transparent)); }
+    40%      { filter: drop-shadow(0 0 14px color-mix(in srgb, var(--purple) 70%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--purple) 50%, transparent)) brightness(1.1); }
+    70%      { filter: drop-shadow(0 0 10px color-mix(in srgb, var(--purple-l) 35%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--purple) 55%, transparent)) brightness(1.06); }
 }
 
 /* Sticky floating logo */
@@ -514,6 +514,8 @@ body.light-mode .t-dark  { display: none; }
 .hero-stats { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .stat { text-align: center; }
 .stat-num { font-size: 2rem; font-weight: 900; color: var(--gold); }
+.stat-emoji { font-size: 1.8rem; -webkit-text-fill-color: initial; background: none; }
+.stat-emoji-stars { font-size: 1.4rem; color: #F59E0B; letter-spacing: 2px; display: block; }
 .stat span { font-size: 1.4rem; font-weight: 700; color: var(--gold); }
 .stat p { font-size: .8rem; color: var(--text-dim); margin-top: 2px; }
 .stat-sep { color: var(--purple-l); font-size: 1.2rem; }
@@ -552,8 +554,8 @@ body.light-mode .t-dark  { display: none; }
    ============================================================ */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
 }
 .product-card {
     background: var(--card-bg);
@@ -570,6 +572,26 @@ body.light-mode .t-dark  { display: none; }
     box-shadow: 0 20px 60px color-mix(in srgb, var(--purple) 40%, transparent), 0 0 0 1px rgba(212,175,55,0.2);
 }
 .product-img-wrap { position: relative; padding-top: 56%; background: linear-gradient(135deg, color-mix(in srgb, var(--purple) 40%, var(--bg)), color-mix(in srgb, var(--purple) 15%, var(--bg))); }
+.product-dissolve-overlay {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0;
+    pointer-events: none;
+}
+.product-img-placeholder { display: flex; align-items: center; justify-content: center; padding-top: 0; height: 180px; }
+.cat-emoji { font-size: 4.5rem; line-height: 1; }
+
+/* כרטיס מיוחד — בדיוק כמו כרטיסיה רגילה, 30% גדול יותר */
+.product-card-featured {
+    grid-column: 1 / -1;
+    width: min(338px, 100%);
+    margin: 0 auto;
+    border-color: color-mix(in srgb, var(--purple-l) 45%, transparent);
+}
+.product-card-featured .product-img-placeholder { height: 234px; }
+.product-card-featured h3 { font-size: 1.43rem; }
+.product-card-featured p  { font-size: 1.04rem; }
+.product-card-featured .btn-order { padding: 11px 22px; font-size: 1.04rem; }
 .product-img-placeholder {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -602,6 +624,57 @@ body.light-mode .t-dark  { display: none; }
 .img-zoom-btn:hover { transform: scale(1.18); background: var(--purple); box-shadow: 0 0 12px color-mix(in srgb, var(--purple) 60%, transparent); }
 
 /* ── Lightbox ── */
+/* ── Reviews trigger ── */
+.reviews-trigger {
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-align: center;
+    transition: opacity .2s;
+}
+.reviews-trigger:hover { opacity: .75; }
+.reviews-trigger p { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Reviews modal ── */
+#reviews-modal {
+    position: fixed; inset: 0; z-index: 9400;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+#reviews-modal.active { opacity: 1; pointer-events: all; }
+.rv-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.65); backdrop-filter: blur(8px);
+}
+.rv-content {
+    position: relative; z-index: 1;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px 32px 28px;
+    width: min(560px, 92vw); max-height: 80vh;
+    overflow-y: auto; box-shadow: var(--shadow);
+    animation: lbIn .3s ease;
+}
+.rv-close {
+    position: absolute; top: 14px; left: 16px;
+    background: none; border: none; font-size: 1.3rem;
+    color: var(--text-dim); cursor: pointer; padding: 4px 8px;
+    transition: color .2s;
+}
+.rv-close:hover { color: var(--white); }
+.rv-header { text-align: center; margin-bottom: 24px; }
+.rv-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+.rv-summary { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.rv-big-stars { color: #F59E0B; font-size: 1.5rem; letter-spacing: 3px; }
+.rv-avg { font-size: 2rem; font-weight: 900; color: var(--gold); }
+.rv-total { color: var(--text-dim); font-size: .9rem; }
+.rv-list { display: flex; flex-direction: column; gap: 14px; }
+.rv-item {
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+}
+.rv-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.rv-name { font-weight: 700; font-size: .95rem; }
+.rv-s { color: #F59E0B; font-size: .9rem; letter-spacing: 1px; }
+.rv-item p { color: var(--text-dim); font-size: .9rem; line-height: 1.6; margin: 0; }
+
 #lightbox {
     position: fixed; inset: 0; z-index: 9500;
     display: flex; align-items: center; justify-content: center;
@@ -652,7 +725,7 @@ body.light-mode .t-dark  { display: none; }
 .product-body { padding: 24px; }
 .product-body h3 { font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 8px; }
 .product-body p { color: var(--text-dim); font-size: .9rem; line-height: 1.6; margin-bottom: 20px; }
-.product-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.product-footer { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .price { font-size: 1.4rem; font-weight: 900; color: var(--gold); }
 .btn-order {
     padding: 10px 22px; border-radius: 50px;
@@ -989,7 +1062,8 @@ body.light-mode .t-dark  { display: none; }
 
 @media (max-width: 768px) {
     .hamburger { display: flex; }
-    .color-dots { display: none; }
+    .color-dots { gap: 5px; }
+    .cdot { width: 15px; height: 15px; }
     #theme-toggle { width: 32px; height: 32px; font-size: 1rem; }
     .nav-links {
         position: fixed; top: 0; left: -100%; height: 100vh; width: 80%;

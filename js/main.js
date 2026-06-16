@@ -60,10 +60,11 @@
         });
         const logoSrc = `logos/${color}.png`;
         document.querySelectorAll('.intro-logo, .loading-logo, .logo-float img, .footer-logo').forEach(img => {
+            img.style.display = '';
             img.src = logoSrc;
         });
     };
-    applyColor(localStorage.getItem('sweeties-color') || 'purple');
+    applyColor(localStorage.getItem('sweeties-color') || 'pink');
     document.querySelectorAll('.cdot').forEach(dot => {
         dot.addEventListener('click', () => applyColor(dot.dataset.color));
     });
@@ -337,6 +338,52 @@
     }
     addZoomButtons();
     document.addEventListener('introComplete', addZoomButtons);
+
+    // ─── Product slideshow (crossfade dissolve) ──────────────────────────────
+    document.querySelectorAll('.product-slideshow').forEach(img => {
+        const slides = img.dataset.slides.split(',');
+        let idx = 0;
+
+        // שכבת overlay לdissolve — נטענת מעל התמונה הנוכחית
+        const overlay = document.createElement('img');
+        overlay.className = 'product-img-real product-dissolve-overlay';
+        img.parentElement.appendChild(overlay);
+
+        setInterval(() => {
+            idx = (idx + 1) % slides.length;
+            overlay.src = slides[idx];
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'none';
+
+            // כשהתמונה נטענת — fade in
+            overlay.onload = () => {
+                requestAnimationFrame(() => {
+                    overlay.style.transition = 'opacity 1.4s ease';
+                    overlay.style.opacity = '1';
+                });
+                // אחרי שה-dissolve הסתיים — עדכן את השכבה הבסיסית
+                setTimeout(() => {
+                    img.src = slides[idx];
+                    overlay.style.transition = 'none';
+                    overlay.style.opacity = '0';
+                }, 1500);
+            };
+        }, 3500);
+    });
+
+    // ─── Reviews modal ───────────────────────────────────────────────────────
+    const reviewsModal   = document.getElementById('reviews-modal');
+    const reviewsTrigger = document.getElementById('reviews-trigger');
+    const rvClose        = document.getElementById('rv-close');
+    const rvBackdrop     = document.getElementById('rv-backdrop');
+
+    function openReviews()  { reviewsModal.classList.add('active');    document.body.style.overflow = 'hidden'; }
+    function closeReviews() { reviewsModal.classList.remove('active'); document.body.style.overflow = ''; }
+
+    if (reviewsTrigger) reviewsTrigger.addEventListener('click', openReviews);
+    if (rvClose)        rvClose.addEventListener('click', closeReviews);
+    if (rvBackdrop)     rvBackdrop.addEventListener('click', closeReviews);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReviews(); });
 
     // ─── Smooth anchor scrolling ──────────────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(a => {
