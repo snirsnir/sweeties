@@ -7,6 +7,14 @@ import * as THREE from 'three';
 import { GLTFLoader }  from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
+// אם זה bot/סורק או שאין WebGL — דלג ישר לאתר
+if (navigator.webdriver || !window.WebGLRenderingContext) {
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('main-site').classList.add('visible');
+    document.dispatchEvent(new CustomEvent('introComplete'));
+    throw new Error('skip-intro'); // עצור את שאר הסקריפט
+}
+
 // ─── Setup ───────────────────────────────────────────────────────────────────
 const canvas   = document.getElementById('three-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
