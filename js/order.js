@@ -240,7 +240,7 @@ window.submitOrder = async () => {
             submittedAt:   serverTimestamp()
         });
 
-        // Send email via EmailJS
+        // Send email via EmailJS (ללא תמונות — נשמרות ב-Firestore ונראות באדמין)
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, {
             to_name:       formData.name,
             to_email:      formData.email,
@@ -255,8 +255,6 @@ window.submitOrder = async () => {
             decoration:    formData.decoration  || 'לא צוין',
             food:          formData.food         || 'לא צוין',
             extras:        formData.extras        || 'לא צוין',
-            invite_image:  inviteImg              || '',
-            signature_img: signatureData,
         });
 
         show('success');
