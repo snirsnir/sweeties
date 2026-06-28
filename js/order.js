@@ -121,8 +121,8 @@ window.openAgreement = () => {
     document.getElementById('agreement-text').innerHTML = agreementHTML(name);
     document.getElementById('agreement-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    // תיקון באג: resize אחרי שה-modal גלוי (canvas היה 0 כשהיה מוסתר)
-    setTimeout(resizePad, 80);
+    // מחכה לשני frames כדי לוודא ש-canvas קיבל מימדים אמיתיים
+    requestAnimationFrame(() => requestAnimationFrame(resizePad));
 };
 
 window.closeAgreement = () => {
@@ -164,7 +164,7 @@ async function generateInvite(formData) {
             ctx.direction    = 'rtl';
 
             const S    = Math.round(W * 0.060);
-            const maxW = W * 0.70;
+            const maxW = W * 0.65;
 
             // צבעים אחידים
             const PINK   = '#c2185b';
