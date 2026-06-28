@@ -143,7 +143,9 @@ window.confirmSignature = () => {
 };
 
 // ── Generate invite image ─────────────────────────────────────────
-function generateInvite(formData) {
+async function generateInvite(formData) {
+    try { await document.fonts.load('bold 48px Rubik'); } catch(e) {}
+
     return new Promise(resolve => {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -154,30 +156,65 @@ function generateInvite(formData) {
             const ctx = c.getContext('2d');
             ctx.drawImage(img, 0, 0);
 
-            const cx = c.width / 2;
+            const W = c.width, H = c.height, cx = W / 2;
             ctx.textAlign    = 'center';
             ctx.textBaseline = 'middle';
             ctx.direction    = 'rtl';
 
-            // Heading
-            ctx.font      = `bold ${Math.round(c.width * 0.072)}px Heebo, Arial`;
-            ctx.fillStyle = '#8b1a6b';
-            ctx.fillText('הנכם מוזמנים ליום הולדת של', cx, c.height * 0.34);
+            const S = Math.round(W * 0.062); // base font size
+            const maxW = W * 0.78;           // max text width (within oval)
 
-            // Celebrant name — larger, pink
-            ctx.font      = `bold ${Math.round(c.width * 0.10)}px Heebo, Arial`;
-            ctx.fillStyle = '#e91e8c';
-            ctx.fillText(formData.celebrant, cx, c.height * 0.43);
+            // Draw pill background behind text
+            function pill(y, lineH, alpha = 0.72) {
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle   = '#ffffff';
+                const pw = maxW, ph = lineH * 1.55, pr = ph / 2;
+                const px = cx - pw / 2, py = y - ph / 2;
+                ctx.beginPath();
+                ctx.moveTo(px + pr, py);
+                ctx.lineTo(px + pw - pr, py);
+                ctx.arc(px + pw - pr, py + pr, pr, -Math.PI/2, Math.PI/2);
+                ctx.lineTo(px + pr, py + ph);
+                ctx.arc(px + pr, py + pr, pr, Math.PI/2, -Math.PI/2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
 
-            // Details
-            ctx.font      = `${Math.round(c.width * 0.058)}px Heebo, Arial`;
-            ctx.fillStyle = '#5c1a5c';
+            function line(text, y, size, color, withPill = false) {
+                if (withPill) pill(y, size);
+                ctx.font      = `bold ${size}px Rubik, Arial`;
+                ctx.fillStyle = color;
+                ctx.fillText(text, cx, y, maxW);
+            }
+
+            function lineLight(text, y, size, color) {
+                ctx.font      = `${size}px Rubik, Arial`;
+                ctx.fillStyle = color;
+                ctx.fillText(text, cx, y, maxW);
+            }
+
             const dateStr = formData.date
                 ? new Date(formData.date).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
-                : formData.date;
-            ctx.fillText(`📅  ${dateStr}`,     cx, c.height * 0.535);
-            ctx.fillText(`⏰  ${formData.time}`,    cx, c.height * 0.610);
-            ctx.fillText(`📍  ${formData.address}`, cx, c.height * 0.685);
+                : '—';
+
+            // ── Row 1+2: main headline ────────────────────────────
+            line(`${formData.celebrant} מזמינה אתכם לנפץ`, H * 0.30, S * 1.05, '#7c3aed', true);
+            line(`איתה לבבות 🔨🍫`,                        H * 0.38, S * 1.05, '#e91e8c', true);
+
+            // ── Where ─────────────────────────────────────────────
+            lineLight('אז איפה זה קורה?', H * 0.47, S * 0.72, '#7c5c8a');
+            line(formData.address,         H * 0.535, S * 0.88, '#1a1a2e', true);
+
+            // ── When ──────────────────────────────────────────────
+            lineLight('מתי?',              H * 0.615, S * 0.72, '#7c5c8a');
+            line(`${dateStr} |`,           H * 0.675, S * 0.88, '#1a1a2e', true);
+            line(`בשעה ${formData.time}`,  H * 0.735, S * 0.88, '#1a1a2e', true);
+
+            // ── Footer ────────────────────────────────────────────
+            lineLight('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', H * 0.808, S * 0.68, '#5c1a5c');
+            lineLight('#sweeties_IL',                                 H * 0.858, S * 0.68, '#e91e8c');
 
             resolve(c.toDataURL('image/jpeg', 0.88));
         };
