@@ -361,13 +361,9 @@ window.submitOrder = async () => {
             event_time:    formData.time,
             celebrant:     formData.celebrant,
             event_address: formData.address,
-            package:       formData.package,
-            characters:    formData.characters || 'לא צוין',
-            decoration:    formData.decoration  || 'לא צוין',
-            food:          formData.food         || 'לא צוין',
-            extras:        formData.extras        || 'לא צוין',
-            invite_image:  inviteImg              || '',
-            signature_img: signatureData,
+            decoration:    formData.decoration || 'לא צוין',
+            extras:        formData.extras      || 'לא צוין',
+            // invite_image ו-signature_img מושהים עד שדרוג PLAN ב-EmailJS
         });
 
         show('success');
