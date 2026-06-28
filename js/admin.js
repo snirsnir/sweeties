@@ -1,7 +1,7 @@
 import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp }
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, doc, getDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { firebaseConfig, SITE_URL } from "./firebase-config.js";
 
@@ -25,8 +25,17 @@ const ordersEl      = document.getElementById('orders-container');
 const eventsEl      = document.getElementById('events-container');
 
 // ── Auth ──────────────────────────────────────────────────────────
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
     if (user) {
+        // בדוק אם המייל מורשה ב-Firestore
+        const adminSnap = await getDoc(doc(db, 'admins', user.email));
+        if (!adminSnap.exists()) {
+            await signOut(auth);
+            loginScreen.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            showLoginError('❌ אין לך הרשאת גישה לממשק זה.');
+            return;
+        }
         loginScreen.classList.add('hidden');
         dashboard.classList.remove('hidden');
         userNameEl.textContent = user.displayName || user.email;
@@ -37,6 +46,17 @@ onAuthStateChanged(auth, user => {
         dashboard.classList.add('hidden');
     }
 });
+
+function showLoginError(msg) {
+    let el = document.getElementById('login-error');
+    if (!el) {
+        el = document.createElement('p');
+        el.id = 'login-error';
+        el.style.cssText = 'color:#dc2626;margin-top:14px;font-size:14px;';
+        document.querySelector('.login-card').appendChild(el);
+    }
+    el.textContent = msg;
+}
 
 googleBtn.addEventListener('click', async () => {
     try {
