@@ -110,6 +110,7 @@ body {
     font-family: 'Heebo', sans-serif; transition: all 0.2s;
 }
 .btn-sm:hover { border-color: var(--pink); color: var(--pink); }
+.btn-delete:hover { border-color: #dc2626; color: #dc2626; }
 .loading, .no-orders { text-align: center; padding: 40px; color: var(--gray); }
 .error { text-align: center; padding: 20px; color: #dc2626; }
 

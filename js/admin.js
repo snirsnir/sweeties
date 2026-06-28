@@ -1,7 +1,7 @@
 import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, doc, getDoc }
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, doc, getDoc, deleteDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { firebaseConfig, SITE_URL } from "./firebase-config.js";
 
@@ -190,7 +190,10 @@ async function loadEvents() {
                 <td>${o.time || '—'}</td>
                 <td>${o.address || '—'}</td>
                 <td style="max-width:180px;white-space:pre-wrap;font-size:12px;">${o.package || '—'}</td>
-                <td><button class="btn-sm" onclick="showEventDetails('${d.id}')">פרטים מלאים</button></td>
+                <td>
+                    <button class="btn-sm" onclick="showEventDetails('${d.id}')">פרטים מלאים</button>
+                    <button class="btn-sm btn-delete" onclick="deleteOrder('${d.id}', '${o.customerName}')">🗑️ מחק</button>
+                </td>
             </tr>`;
         }).join('');
 
@@ -214,6 +217,19 @@ async function loadEvents() {
         eventsEl.innerHTML = `<p class="error">שגיאה: ${e.message}</p>`;
     }
 }
+
+// ── Delete order ──────────────────────────────────────────────────
+window.deleteOrder = async (id, name) => {
+    if (!confirm(`למחוק את ההזמנה של ${name}?\nלא ניתן לשחזר.`)) return;
+    try {
+        await deleteDoc(doc(db, 'orders', id));
+        if (window._eventsData) delete window._eventsData[id];
+        loadOrders();
+        loadEvents();
+    } catch (e) {
+        alert('שגיאה במחיקה: ' + e.message);
+    }
+};
 
 // ── Event details modal ───────────────────────────────────────────
 window.showEventDetails = id => {
