@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweeties | טופס הזמנה</title>
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="order-page">
+
+<!-- Loading -->
+<div id="loading-screen">
+    <div class="loader"></div>
+    <p>טוענת הזמנה…</p>
+</div>
+
+<!-- Error -->
+<div id="error-screen" class="hidden">
+    <h2>😕 קישור לא תקין</h2>
+    <p>נראה שהקישור פג תוקף או אינו תקין.<br>פני ל-Chen לקבלת קישור חדש.</p>
+</div>
+
+<!-- Order Form -->
+<div id="order-screen" class="hidden">
+    <header class="order-header">
+        <img src="logos/pink.png" alt="Sweeties" class="order-logo">
+        <h1>הסכם הזמנת אירוע</h1>
+        <p class="order-sub">Sweeties | קופסאות ניפוץ שוקולד 💜</p>
+    </header>
+
+    <div class="order-intro">
+        <p>שלום <strong id="greeting-name"></strong> 👋</p>
+        <p>נשמח שתמלאי את הפרטים הבאים לאישור ההזמנה שלך. לאחר מילוי הפרטים וחתימה על ההסכם — ההזמנה תועבר לאישור.</p>
+    </div>
+
+    <form id="order-form" class="order-form" onsubmit="return false;" novalidate>
+
+        <!-- Section 1: Personal -->
+        <div class="form-section">
+            <h3>👤 פרטים אישיים</h3>
+            <div class="form-group">
+                <label>שם המזמינה</label>
+                <input type="text" id="f-name" readonly>
+            </div>
+            <div class="form-group">
+                <label>☎️ טלפון ליצירת קשר *</label>
+                <input type="tel" id="f-phone" placeholder="050-0000000" inputmode="tel">
+            </div>
+            <div class="form-group">
+                <label>✉️ כתובת דוא"ל *</label>
+                <input type="email" id="f-email" placeholder="email@example.com" inputmode="email">
+            </div>
+        </div>
+
+        <!-- Section 2: Event -->
+        <div class="form-section">
+            <h3>🎂 פרטי האירוע</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>📅 תאריך האירוע *</label>
+                    <input type="date" id="f-date">
+                </div>
+                <div class="form-group">
+                    <label>⏰ שעת האירוע *</label>
+                    <input type="time" id="f-time">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>🎂 שם וגיל החוגג/ת *</label>
+                <input type="text" id="f-celebrant" placeholder="לדוגמה: מיה, גיל 7">
+            </div>
+            <div class="form-group">
+                <label>📍 כתובת האירוע *</label>
+                <input type="text" id="f-address" placeholder="רחוב, מספר, עיר">
+            </div>
+        </div>
+
+        <!-- Section 3: Order Details -->
+        <div class="form-section">
+            <h3>📦 פרטי ההזמנה</h3>
+            <div class="form-group">
+                <label>📦 החבילה שבחרת *</label>
+                <textarea id="f-package" rows="3" placeholder="פרטי את החבילה שסוכמה עם Chen"></textarea>
+            </div>
+            <div class="form-group">
+                <label>🎭 בובות שבחרת</label>
+                <input type="text" id="f-characters" placeholder="לדוגמה: ספיידרמן, אלזה">
+            </div>
+            <div class="form-group">
+                <label>🎨 תפאורה</label>
+                <input type="text" id="f-decoration" placeholder="אפשר לבחור גם בהמשך">
+            </div>
+            <div class="form-group">
+                <label>🍿 דוכני מזון</label>
+                <input type="text" id="f-food" placeholder="אם כלול בחבילה או כתוספת">
+            </div>
+            <div class="form-group">
+                <label>✨ תוספות נוספות</label>
+                <textarea id="f-extras" rows="2" placeholder="תוספות אחרות שסוכמו"></textarea>
+            </div>
+        </div>
+
+        <!-- Agreement -->
+        <div class="form-section agreement-section">
+            <div class="agreement-notice">
+                <p>📩 ההזמנה תאושר לאחר קבלת הפרטים המלאים.</p>
+                <p>⚠️ מילוי הפרטים וחתימה על ההסכם מהווים הסכמה לתנאי ההזמנה.</p>
+            </div>
+            <button type="button" id="open-agreement-btn" onclick="openAgreement()">✍️ לצפייה בהסכם וחתימה</button>
+            <div id="signed-indicator" class="hidden">✅ ההסכם נחתם — ניתן לשלוח</div>
+        </div>
+
+        <button type="button" id="submit-btn" onclick="submitOrder()" disabled>שלחי הזמנה 🎉</button>
+
+    </form>
+</div>
+
+<!-- Success -->
+<div id="success-screen" class="hidden">
+    <div class="success-card">
+        <div class="success-icon">🎉</div>
+        <h2>ההזמנה התקבלה!</h2>
+        <p>תודה <strong id="success-name"></strong>!</p>
+        <p>שלחנו לך מייל עם אישור ההזמנה וההזמנה המעוצבת לאירוע.</p>
+        <p style="margin-top:16px;">לכל שאלה: <a href="https://instagram.com/sweeties_il" target="_blank">@sweeties_il</a></p>
+    </div>
+</div>
+
+<!-- ── AGREEMENT MODAL ── -->
+<div id="agreement-modal" class="modal-overlay hidden">
+    <div class="modal agreement-modal">
+        <button class="modal-close" onclick="closeAgreement()" aria-label="סגור">✕</button>
+
+        <div class="agreement-header">
+            <img src="logos/pink.png" alt="Sweeties" class="agreement-logo">
+            <h2>הסכם הזמנת אירוע</h2>
+            <p>Sweeties | קופסאות ניפוץ שוקולד</p>
+        </div>
+
+        <div class="agreement-content" id="agreement-text"></div>
+
+        <div class="signature-section">
+            <h3>✍️ חתימה דיגיטלית</h3>
+            <p>חתמי בתיבה למטה לאישור ההסכם</p>
+            <div class="sig-wrap">
+                <canvas id="signature-canvas"></canvas>
+                <button type="button" class="btn-clear" onclick="clearSignature()">נקי</button>
+            </div>
+        </div>
+
+        <button type="button" id="confirm-signature-btn" onclick="confirmSignature()">אני מסכימה לתנאי ההסכם ✅</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="module" src="js/order.js"></script>
+</body>
+</html>
