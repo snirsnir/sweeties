@@ -150,7 +150,10 @@ async function loadOrders() {
                     <td>${o.customerName}</td>
                     <td>${date}</td>
                     <td>⏳ ממתינה למילוי</td>
-                    <td><button class="btn-sm" onclick="${copyJs}">שלח קישור</button></td>
+                    <td>
+                        <button class="btn-sm" onclick="${copyJs}">שלח קישור</button>
+                        <button class="btn-sm btn-delete" onclick="deleteOrder('${d.id}', '${o.customerName}')">🗑️ מחק</button>
+                    </td>
                 </tr>`;
             }).join('');
             ordersEl.innerHTML = `
