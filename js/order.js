@@ -184,7 +184,11 @@ window.confirmSignature = () => {
 
     closeAgreement();
     document.getElementById('signed-indicator').classList.remove('hidden');
-    document.getElementById('open-agreement-btn').textContent = '✍️ ערכי חתימה';
+    const agBtn = document.getElementById('open-agreement-btn');
+    agBtn.textContent = '✍️ ערכי חתימה';
+    agBtn.style.background  = '#9ca3af';
+    agBtn.style.borderColor = '#9ca3af';
+    agBtn.style.color       = '#fff';
     const submitBtn = document.getElementById('submit-btn');
     submitBtn.disabled = false;
     submitBtn.classList.add('pulse');
@@ -309,7 +313,6 @@ window.submitOrder = async () => {
         celebrantName,
         celebrantAge,
         address:       get('f-address'),
-        characters:    get('f-characters'),
         decoration:    get('f-decoration'),
         extras:        get('f-extras'),
     };
