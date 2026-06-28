@@ -47,11 +47,20 @@ async function init() {
         document.getElementById('success-name').textContent  = data.customerName;
 
         initSignaturePad();
+        initPhoneFormat();
         show('order');
     } catch (e) {
         console.error(e);
         show('error');
     }
+}
+
+function initPhoneFormat() {
+    const el = document.getElementById('f-phone');
+    el.addEventListener('input', () => {
+        const digits = el.value.replace(/\D/g, '').slice(0, 10);
+        el.value = digits.length > 3 ? digits.slice(0, 3) + '-' + digits.slice(3) : digits;
+    });
 }
 
 function initSignaturePad() {
@@ -302,7 +311,6 @@ window.submitOrder = async () => {
         address:       get('f-address'),
         characters:    get('f-characters'),
         decoration:    get('f-decoration'),
-        food:          get('f-food'),
         extras:        get('f-extras'),
     };
 
