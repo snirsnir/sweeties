@@ -238,6 +238,11 @@ body {
 }
 #submit-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 #submit-btn:not(:disabled):hover { opacity: 0.88; }
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(233,30,140,0.5); transform: scale(1); }
+    50%       { box-shadow: 0 0 0 10px rgba(233,30,140,0); transform: scale(1.02); }
+}
+#submit-btn.pulse { animation: pulse-glow 1.6s ease-in-out infinite; }
 
 /* ===== AGREEMENT MODAL ===== */
 .agreement-modal { max-width: 640px; }

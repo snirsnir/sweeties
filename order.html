@@ -68,9 +68,15 @@
                     <input type="time" id="f-time">
                 </div>
             </div>
-            <div class="form-group">
-                <label>🎂 שם וגיל החוגג/ת *</label>
-                <input type="text" id="f-celebrant" placeholder="לדוגמה: מיה, גיל 7">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>🎂 שם החוגג/ת *</label>
+                    <input type="text" id="f-celebrant-name" placeholder="שם פרטי">
+                </div>
+                <div class="form-group">
+                    <label>🎈 גיל החוגג/ת *</label>
+                    <input type="number" id="f-celebrant-age" placeholder="גיל" min="1" max="120" inputmode="numeric">
+                </div>
             </div>
             <div class="form-group">
                 <label>📍 כתובת האירוע *</label>
@@ -80,17 +86,13 @@
 
         <!-- Section 3: Order Details -->
         <div class="form-section">
-            <h3>📦 פרטי ההזמנה</h3>
-            <div class="form-group">
-                <label>📦 החבילה שבחרת *</label>
-                <textarea id="f-package" rows="3" placeholder="פרטי את החבילה שסוכמה עם Chen"></textarea>
-            </div>
+            <h3>✨ פרטי ההזמנה</h3>
             <div class="form-group">
                 <label>🎭 בובות שבחרת</label>
                 <input type="text" id="f-characters" placeholder="לדוגמה: ספיידרמן, אלזה">
             </div>
             <div class="form-group">
-                <label>🎨 תפאורה</label>
+                <label>🎨 תפאורה מועדפת</label>
                 <input type="text" id="f-decoration" placeholder="אפשר לבחור גם בהמשך">
             </div>
             <div class="form-group">
@@ -98,8 +100,8 @@
                 <input type="text" id="f-food" placeholder="אם כלול בחבילה או כתוספת">
             </div>
             <div class="form-group">
-                <label>✨ תוספות נוספות</label>
-                <textarea id="f-extras" rows="2" placeholder="תוספות אחרות שסוכמו"></textarea>
+                <label>📝 הערות נוספות</label>
+                <textarea id="f-extras" rows="3" placeholder="כל מה שחשוב שנדע..."></textarea>
             </div>
         </div>
 
@@ -110,7 +112,7 @@
                 <p>⚠️ מילוי הפרטים וחתימה על ההסכם מהווים הסכמה לתנאי ההזמנה.</p>
             </div>
             <button type="button" id="open-agreement-btn" onclick="openAgreement()">✍️ לצפייה בהסכם וחתימה</button>
-            <div id="signed-indicator" class="hidden">✅ ההסכם נחתם — ניתן לשלוח</div>
+            <div id="signed-indicator" class="hidden">✅ נותר רק לשלוח...</div>
         </div>
 
         <button type="button" id="submit-btn" onclick="submitOrder()" disabled>שלחי הזמנה 🎉</button>

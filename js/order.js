@@ -118,12 +118,40 @@ function agreementHTML(name) {
 // ── Agreement modal ───────────────────────────────────────────────
 window.openAgreement = () => {
     const name = document.getElementById('f-name').value;
-    document.getElementById('agreement-text').innerHTML = agreementHTML(name);
+    const agText = document.getElementById('agreement-text');
+    agText.innerHTML = agreementHTML(name);
     document.getElementById('agreement-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    // מחכה לשני frames כדי לוודא ש-canvas קיבל מימדים אמיתיים
+
+    // חתימה נעולה עד גלילה לסוף
+    lockSignature(true);
+
+    // גלילה לסוף = פתיחת חתימה
+    agText.onscroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = agText;
+        if (scrollTop + clientHeight >= scrollHeight - 8) {
+            lockSignature(false);
+            agText.onscroll = null;
+        }
+    };
+
     requestAnimationFrame(() => requestAnimationFrame(resizePad));
 };
+
+function lockSignature(locked) {
+    const canvas  = document.getElementById('signature-canvas');
+    const btn     = document.getElementById('confirm-signature-btn');
+    const section = document.querySelector('.signature-section');
+    canvas.style.pointerEvents  = locked ? 'none' : 'auto';
+    section.style.opacity       = locked ? '0.35' : '1';
+    section.style.transition    = 'opacity 0.4s';
+    btn.disabled                = locked;
+    btn.style.opacity           = locked ? '0.4' : '1';
+    if (!locked) {
+        const hint = document.getElementById('scroll-hint');
+        if (hint) hint.remove();
+    }
+}
 
 window.closeAgreement = () => {
     document.getElementById('agreement-modal').classList.add('hidden');
@@ -138,10 +166,19 @@ window.confirmSignature = () => {
         return;
     }
     signatureData = signaturePad.toDataURL('image/png');
+
+    // כפתור הסכמה הופך לאפור
+    const btn = document.getElementById('confirm-signature-btn');
+    btn.disabled   = true;
+    btn.textContent = '✅ נחתם';
+    btn.style.background = '#9ca3af';
+
     closeAgreement();
     document.getElementById('signed-indicator').classList.remove('hidden');
     document.getElementById('open-agreement-btn').textContent = '✍️ ערכי חתימה';
-    document.getElementById('submit-btn').disabled = false;
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = false;
+    submitBtn.classList.add('pulse');
 };
 
 // ── Generate invite image ─────────────────────────────────────────
@@ -250,28 +287,37 @@ function fmtDate(d) {
 window.submitOrder = async () => {
     if (!signatureData) { alert('נא לקרוא ולחתום על ההסכם תחילה'); return; }
 
-    const get = id => document.getElementById(id).value.trim();
+    const get = id => document.getElementById(id)?.value.trim() || '';
+    const celebrantName = get('f-celebrant-name');
+    const celebrantAge  = get('f-celebrant-age');
     const formData = {
-        name:       get('f-name'),
-        phone:      get('f-phone'),
-        email:      get('f-email'),
-        date:       get('f-date'),
-        time:       get('f-time'),
-        celebrant:  get('f-celebrant'),
-        address:    get('f-address'),
-        package:    get('f-package'),
-        characters: get('f-characters'),
-        decoration: get('f-decoration'),
-        food:       get('f-food'),
-        extras:     get('f-extras'),
+        name:          get('f-name'),
+        phone:         get('f-phone'),
+        email:         get('f-email'),
+        date:          get('f-date'),
+        time:          get('f-time'),
+        celebrant:     celebrantAge ? `${celebrantName}, גיל ${celebrantAge}` : celebrantName,
+        celebrantName,
+        celebrantAge,
+        address:       get('f-address'),
+        characters:    get('f-characters'),
+        decoration:    get('f-decoration'),
+        food:          get('f-food'),
+        extras:        get('f-extras'),
     };
 
-    const required = ['phone', 'email', 'date', 'time', 'celebrant', 'address', 'package'];
-    for (const k of required) {
+    const required = [
+        { k: 'phone',         el: 'f-phone',          label: 'טלפון' },
+        { k: 'email',         el: 'f-email',           label: 'דוא"ל' },
+        { k: 'date',          el: 'f-date',            label: 'תאריך אירוע' },
+        { k: 'time',          el: 'f-time',            label: 'שעת אירוע' },
+        { k: 'celebrantName', el: 'f-celebrant-name',  label: 'שם החוגג/ת' },
+        { k: 'address',       el: 'f-address',         label: 'כתובת האירוע' },
+    ];
+    for (const { k, el, label } of required) {
         if (!formData[k]) {
-            const labels = { phone:'טלפון', email:'דוא"ל', date:'תאריך אירוע', time:'שעת אירוע', celebrant:'שם החוגג/ת', address:'כתובת האירוע', package:'החבילה' };
-            alert(`נא למלא: ${labels[k]}`);
-            document.getElementById('f-' + k)?.focus();
+            alert(`נא למלא: ${label}`);
+            document.getElementById(el)?.focus();
             return;
         }
     }
