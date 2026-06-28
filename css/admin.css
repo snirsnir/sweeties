@@ -301,9 +301,15 @@ body {
 
 @media (max-width: 480px) {
     .form-row { grid-template-columns: 1fr; }
-    .modal { padding: 28px 20px; }
+    .modal { padding: 20px 16px; border-radius: 16px; }
     .login-card { padding: 36px 24px; }
     .admin-header { padding: 12px 16px; }
     .orders-table { font-size: 12px; }
     .orders-table th, .orders-table td { padding: 10px 8px; }
+    .agreement-modal { max-height: 95vh; border-radius: 16px 16px 0 0; align-self: flex-end; }
+    #signature-canvas { height: 130px; }
+    .signature-section h3 { font-size: 15px; }
+    #confirm-signature-btn { padding: 14px; font-size: 15px; }
+    #open-agreement-btn { padding: 13px 20px; font-size: 15px; }
+    #submit-btn { font-size: 16px; padding: 16px; }
 }

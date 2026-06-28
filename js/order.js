@@ -121,6 +121,8 @@ window.openAgreement = () => {
     document.getElementById('agreement-text').innerHTML = agreementHTML(name);
     document.getElementById('agreement-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    // תיקון באג: resize אחרי שה-modal גלוי (canvas היה 0 כשהיה מוסתר)
+    setTimeout(resizePad, 80);
 };
 
 window.closeAgreement = () => {
@@ -161,62 +163,77 @@ async function generateInvite(formData) {
             ctx.textBaseline = 'middle';
             ctx.direction    = 'rtl';
 
-            const S = Math.round(W * 0.062); // base font size
-            const maxW = W * 0.78;           // max text width (within oval)
+            const S    = Math.round(W * 0.060);
+            const maxW = W * 0.70;
 
-            // Draw pill background behind text
-            function pill(y, lineH, alpha = 0.72) {
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.fillStyle   = '#ffffff';
-                const pw = maxW, ph = lineH * 1.55, pr = ph / 2;
-                const px = cx - pw / 2, py = y - ph / 2;
-                ctx.beginPath();
-                ctx.moveTo(px + pr, py);
-                ctx.lineTo(px + pw - pr, py);
-                ctx.arc(px + pw - pr, py + pr, pr, -Math.PI/2, Math.PI/2);
-                ctx.lineTo(px + pr, py + ph);
-                ctx.arc(px + pr, py + pr, pr, Math.PI/2, -Math.PI/2);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
+            // צבעים אחידים
+            const PINK   = '#c2185b';
+            const PURPLE = '#6a1b9a';
+            const SOFT   = '#8e4baa';
+
+            // גלישת שורות ב-70% רוחב
+            function wrapLines(text, size, bold = false) {
+                ctx.font = `${bold ? 'bold ' : ''}${size}px Rubik, Arial`;
+                const words = text.split(' ');
+                const lines = [];
+                let cur = '';
+                for (const w of words) {
+                    const test = cur ? `${cur} ${w}` : w;
+                    if (ctx.measureText(test).width > maxW && cur) {
+                        lines.push(cur);
+                        cur = w;
+                    } else { cur = test; }
+                }
+                if (cur) lines.push(cur);
+                return lines;
             }
 
-            function line(text, y, size, color, withPill = false) {
-                if (withPill) pill(y, size);
-                ctx.font      = `bold ${size}px Rubik, Arial`;
+            // ציור שורה אחת
+            function drawLine(text, y, size, color, bold = true) {
+                ctx.font      = `${bold ? 'bold ' : ''}${size}px Rubik, Arial`;
                 ctx.fillStyle = color;
                 ctx.fillText(text, cx, y, maxW);
             }
 
-            function lineLight(text, y, size, color) {
-                ctx.font      = `${size}px Rubik, Arial`;
-                ctx.fillStyle = color;
-                ctx.fillText(text, cx, y, maxW);
+            // ציור עם גלישה — מחזיר Y הבא
+            function drawWrapped(text, yStart, size, color, bold, spacing = 1.45) {
+                const lines = wrapLines(text, size, bold);
+                lines.forEach((l, i) => drawLine(l, yStart + i * size * spacing, size, color, bold));
+                return yStart + lines.length * size * spacing;
             }
 
             const dateStr = formData.date
                 ? new Date(formData.date).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
                 : '—';
 
-            // ── Row 1+2: main headline ────────────────────────────
-            line(`${formData.celebrant} מזמינה אתכם לנפץ`, H * 0.30, S * 1.05, '#7c3aed', true);
-            line(`איתה לבבות 🔨🍫`,                        H * 0.38, S * 1.05, '#e91e8c', true);
+            let y = H * 0.285;
+            const gap = S * 0.55;
 
-            // ── Where ─────────────────────────────────────────────
-            lineLight('אז איפה זה קורה?', H * 0.47, S * 0.72, '#7c5c8a');
-            line(formData.address,         H * 0.535, S * 0.88, '#1a1a2e', true);
+            // שורה 1+2: כותרת ראשית
+            y = drawWrapped(`${formData.celebrant} מזמינה אתכם לנפץ`, y, S * 1.0, PURPLE, true);
+            y = drawWrapped('איתה לבבות 🔨🍫', y, S * 1.0, PINK, true);
 
-            // ── When ──────────────────────────────────────────────
-            lineLight('מתי?',              H * 0.615, S * 0.72, '#7c5c8a');
-            line(`${dateStr} |`,           H * 0.675, S * 0.88, '#1a1a2e', true);
-            line(`בשעה ${formData.time}`,  H * 0.735, S * 0.88, '#1a1a2e', true);
+            y += gap * 1.4;
 
-            // ── Footer ────────────────────────────────────────────
-            lineLight('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', H * 0.808, S * 0.68, '#5c1a5c');
-            lineLight('#sweeties_IL',                                 H * 0.858, S * 0.68, '#e91e8c');
+            // איפה?
+            drawLine('אז איפה זה קורה?', y, S * 0.68, SOFT, false);
+            y += S * 1.1;
+            y = drawWrapped(formData.address, y, S * 0.85, PURPLE, true);
 
-            resolve(c.toDataURL('image/jpeg', 0.88));
+            y += gap * 1.2;
+
+            // מתי?
+            drawLine('מתי?', y, S * 0.68, SOFT, false);
+            y += S * 1.1;
+            y = drawWrapped(`${dateStr} | בשעה ${formData.time}`, y, S * 0.85, PURPLE, true);
+
+            y += gap * 1.4;
+
+            // footer
+            drawWrapped('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', y, S * 0.65, PURPLE, false);
+            drawLine('#sweeties_IL', y + S * 1.1, S * 0.65, PINK, false);
+
+            resolve(c.toDataURL('image/jpeg', 0.90));
         };
         img.onerror = () => resolve(null);
         img.src = 'invite/invite.png?' + Date.now();
