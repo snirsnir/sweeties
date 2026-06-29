@@ -292,11 +292,13 @@ async function generateInvite(formData) {
             }
 
             // כותרת ראשית
-            drawWrapped(`${celebrantName} מזמינה אתכם`, H * 0.30, S * 1.08, PURPLE);
-            drawWrapped('לנפץ איתה לבבות', H * 0.38, S * 1.08, PINK);
+            const ageStr = formData.celebrantAge ? ` בת ${formData.celebrantAge}` : '';
+            drawWrapped(`${celebrantName}${ageStr} חוגגת`, H * 0.28, S * 1.08, PURPLE);
+            drawWrapped('ומזמינה אתכן',   H * 0.35, S * 1.08, PINK);
+            drawWrapped('לסדנת לב ניפוץ!', H * 0.42, S * 1.08, PINK);
 
             // איפה?
-            drawLine('אז איפה זה קורה?', H * 0.45,  S * 0.70, SOFT);
+            drawLine('אז איפה זה קורה?', H * 0.53,  S * 0.70, SOFT);
             drawLine(streetLine,          H * 0.565, S * 0.78, PURPLE);
             drawLine(cityLine,            H * 0.585, S * 0.78, PURPLE);
 
