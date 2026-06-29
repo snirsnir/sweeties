@@ -195,7 +195,7 @@ window.confirmSignature = () => {
     closeAgreement();
     document.getElementById('signed-indicator').classList.remove('hidden');
     const agBtn = document.getElementById('open-agreement-btn');
-    agBtn.textContent = '✍️ חתימה על הסכם';
+    agBtn.textContent = '✅ נחתם — יש לשלוח בכפתור למטה';
     agBtn.style.background  = '#9ca3af';
     agBtn.style.borderColor = '#9ca3af';
     agBtn.style.color       = '#fff';
