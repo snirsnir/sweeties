@@ -1,14 +1,17 @@
 import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, updateDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadString, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 import {
     firebaseConfig,
     EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER,
     ADMIN_EMAIL
 } from "./firebase-config.js";
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const app     = initializeApp(firebaseConfig);
+const db      = getFirestore(app);
+const storage = getStorage(app);
 
 // EmailJS init
 emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -295,6 +298,13 @@ async function generateInvite(formData) {
     });
 }
 
+// ── Upload invite to Firebase Storage ────────────────────────────
+async function uploadInvite(base64DataUrl) {
+    const storageRef = ref(storage, `invites/${orderId}.jpg`);
+    await uploadString(storageRef, base64DataUrl, 'data_url');
+    return await getDownloadURL(storageRef);
+}
+
 // ── Format date ───────────────────────────────────────────────────
 function fmtDate(d) {
     if (!d) return '—';
@@ -351,15 +361,19 @@ window.submitOrder = async () => {
     btn.disabled = true;
 
     try {
-        // Generate invite
-        const inviteImg = await generateInvite(formData);
+        // Generate invite + upload to Firebase Storage
+        const inviteBase64 = await generateInvite(formData);
+        let inviteUrl = '';
+        if (inviteBase64) {
+            inviteUrl = await uploadInvite(inviteBase64);
+        }
 
-        // Save to Firestore
+        // Save to Firestore (URL במקום base64 — קל יותר)
         await updateDoc(doc(db, 'orders', orderId), {
             ...formData,
             eventDate:     formData.date,
             signatureData,
-            inviteImage:   inviteImg || '',
+            inviteImage:   inviteUrl,
             status:        'submitted',
             submittedAt:   serverTimestamp()
         });
@@ -378,7 +392,7 @@ window.submitOrder = async () => {
             decoration:       formData.decoration || 'לא צוין',
             extras:           formData.extras      || 'לא צוין',
             agreement_signed: '✓ ההסכם נחתם ונשמר',
-            // invite_image ו-signature_img מושהים עד שדרוג PLAN ב-EmailJS
+            invite_url:       inviteUrl,
         });
 
         show('success');
