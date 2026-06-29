@@ -296,7 +296,7 @@ async function generateInvite(formData) {
             drawWrapped('לנפץ איתה לבבות', H * 0.38, S * 1.08, PINK);
 
             // איפה?
-            drawLine('אז איפה זה קורה?', H * 0.49,  S * 0.70, SOFT);
+            drawLine('אז איפה זה קורה?', H * 0.45,  S * 0.70, SOFT);
             drawLine(streetLine,          H * 0.565, S * 0.78, PURPLE);
             drawLine(cityLine,            H * 0.585, S * 0.78, PURPLE);
 
