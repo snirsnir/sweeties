@@ -4,6 +4,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, doc, getDoc, deleteDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { firebaseConfig, SITE_URL } from "./firebase-config.js";
+import { generateInvite } from "./invite.js";
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -234,6 +235,38 @@ window.deleteOrder = async (id, name) => {
     } catch (e) {
         alert('שגיאה במחיקה: ' + e.message);
     }
+};
+
+// ── Demo invite preview ───────────────────────────────────────────
+window.previewDemoInvite = async () => {
+    const demoData = {
+        celebrantName: 'שניר',
+        celebrantAge:  '9',
+        celebrant:     'שניר, גיל 9',
+        street:        'חצבים',
+        streetNum:     '31',
+        apt:           '',
+        city:          'רמת ישי',
+        address:       'חצבים 31, רמת ישי',
+        date:          '2026-07-09',
+        time:          '17:00',
+    };
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;';
+    overlay.innerHTML = `<div style="position:relative;max-width:420px;width:100%;text-align:center;">
+        <p style="color:white;margin-bottom:12px;font-family:Heebo,Arial;">⏳ מייצר הזמנה לדוגמא...</p>
+    </div>`;
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+
+    const base64 = await generateInvite(demoData);
+    if (!base64) { overlay.remove(); alert('שגיאה ביצירת הדגמה'); return; }
+
+    overlay.innerHTML = `<div style="position:relative;max-width:420px;width:100%;">
+        <img src="${base64}" style="width:100%;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <button onclick="this.closest('div[style]').remove()" style="position:absolute;top:-14px;left:-14px;width:34px;height:34px;border-radius:50%;background:white;border:none;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>`;
 };
 
 // ── Invite preview lightbox ───────────────────────────────────────
