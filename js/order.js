@@ -291,38 +291,26 @@ async function generateInvite(formData) {
                 ctx.restore();
             }
 
-            let y = H * 0.28;
-            const gap = S * 0.7;
-
             // כותרת ראשית
-            y = drawWrapped(`${celebrantName} מזמינה אתכם`, y, S * 1.08, PURPLE);
-            y = drawWrapped('לנפץ איתה לבבות', y, S * 1.08, PINK);
-
-            y += gap * 1.2;
+            drawWrapped(`${celebrantName} מזמינה אתכם`, H * 0.30, S * 1.08, PURPLE);
+            drawWrapped('לנפץ איתה לבבות', H * 0.38, S * 1.08, PINK);
 
             // איפה?
-            drawLine('אז איפה זה קורה?', y, S * 0.70, SOFT);
-            y += S * 1.15;
-            drawLine(streetLine, y, S * 0.78, PURPLE);
-            y += S * 1.1;
-            drawLine(cityLine, y, S * 0.78, PURPLE);
-
-            y += gap * 1.1;
+            drawLine('אז איפה זה קורה?', H * 0.47, S * 0.70, SOFT);
+            drawLine(streetLine, H * 0.535, S * 0.78, PURPLE);
+            drawLine(cityLine,   H * 0.60,  S * 0.78, PURPLE);
 
             // מתי?
-            drawLine('מתי?', y, S * 0.70, SOFT);
-            y += S * 1.15;
-            drawLine(`${dayName} | ${dateStr} | בשעה ${formData.time}`, y, S * 0.72, PURPLE);
-
-            y += gap * 1.5;
+            drawLine('מתי?', H * 0.665, S * 0.70, SOFT);
+            drawLine(`${dayName} | ${dateStr} | בשעה ${formData.time}`, H * 0.725, S * 0.72, PURPLE);
 
             // footer עם רקע
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
             const footerSize = S * 0.68;
             ctx.font = `${footerSize}px ${FONT}`;
-            const footerW = Math.min(ctx.measureText(footerText).width + S * 1.2, maxW + S * 1.2);
-            drawPill(y, footerW, footerSize * 2.2, '#7c3aed', 0.15);
-            drawLine(footerText, y, footerSize, PURPLE);
+            const footerW = Math.min(ctx.measureText(footerText).width + S * 1.4, maxW + S * 1.4);
+            drawPill(H * 0.815, footerW, footerSize * 2.4, '#7c3aed', 0.15);
+            drawLine(footerText, H * 0.815, footerSize, PURPLE);
 
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
