@@ -17,9 +17,10 @@ const storage = getStorage(app, 'gs://sweeties-7cfd2.firebasestorage.app');
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
 // ── State ─────────────────────────────────────────────────────────
-let signaturePad  = null;
-let signatureData = null;
-let inviteUrl     = '';
+let signaturePad   = null;
+let signatureData  = null;
+let inviteUrl      = '';
+let inviteBase64Cached = '';
 const orderId = new URLSearchParams(location.search).get('id');
 
 // ── Screens ───────────────────────────────────────────────────────
@@ -302,14 +303,14 @@ async function generateInvite(formData) {
 
 // ── Share invite ──────────────────────────────────────────────────
 window.shareInvite = async () => {
-    if (!inviteUrl) return;
+    if (!inviteBase64Cached) return;
     const btn = document.getElementById('share-btn');
     btn.textContent = 'מכינה… ⏳';
     btn.disabled = true;
 
     try {
-        // הורדת התמונה כ-Blob כדי לשתף קובץ אמיתי
-        const res  = await fetch(inviteUrl);
+        // המרת base64 ל-Blob ישירות — ללא fetch, ללא CORS
+        const res  = await fetch(inviteBase64Cached);
         const blob = await res.blob();
         const file = new File([blob], 'sweeties-invite.jpg', { type: 'image/jpeg' });
 
@@ -320,11 +321,9 @@ window.shareInvite = async () => {
                 text:  'מוזמנים לחגיגה! 🔨🍫',
             });
         } else if (navigator.share) {
-            // fallback — שיתוף קישור
-            await navigator.share({ url: inviteUrl, title: 'ההזמנה שלי מ-Sweeties 💜' });
+            await navigator.share({ url: inviteUrl || window.location.href, title: 'ההזמנה שלי מ-Sweeties 💜' });
         } else {
-            // דסקטופ — העתקת קישור
-            await navigator.clipboard.writeText(inviteUrl);
+            await navigator.clipboard.writeText(inviteUrl || window.location.href);
             btn.textContent = '✓ הקישור הועתק!';
             setTimeout(() => { btn.textContent = '📲 שתפי את ההזמנה'; btn.disabled = false; }, 2500);
             return;
@@ -401,14 +400,20 @@ window.submitOrder = async () => {
 
     try {
         // Generate invite + upload to Firebase Storage
-        const inviteBase64 = await generateInvite(formData);
-        if (inviteBase64) {
+        inviteBase64Cached = await generateInvite(formData) || '';
+        if (inviteBase64Cached) {
             try {
-                inviteUrl = await uploadInvite(inviteBase64);
+                inviteUrl = await uploadInvite(inviteBase64Cached);
             } catch (storageErr) {
                 console.error('Storage error:', storageErr);
-                // ממשיך בלי תמונה אם Storage נכשל
             }
+        }
+
+        // תצוגה מקדימה במסך הצלחה
+        if (inviteBase64Cached) {
+            const preview = document.getElementById('invite-preview');
+            if (preview) preview.src = inviteBase64Cached;
+            document.getElementById('invite-preview-wrap')?.classList.remove('hidden');
         }
 
         // Save to Firestore
