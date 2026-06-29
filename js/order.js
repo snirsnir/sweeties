@@ -384,10 +384,15 @@ window.submitOrder = async () => {
         // Generate invite + upload to Firebase Storage
         const inviteBase64 = await generateInvite(formData);
         if (inviteBase64) {
-            inviteUrl = await uploadInvite(inviteBase64);
+            try {
+                inviteUrl = await uploadInvite(inviteBase64);
+            } catch (storageErr) {
+                console.error('Storage error:', storageErr);
+                // ממשיך בלי תמונה אם Storage נכשל
+            }
         }
 
-        // Save to Firestore (URL במקום base64 — קל יותר)
+        // Save to Firestore
         await updateDoc(doc(db, 'orders', orderId), {
             ...formData,
             eventDate:     formData.date,
