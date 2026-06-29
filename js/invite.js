@@ -68,19 +68,19 @@ export async function generateInvite(formData, basePath = '') {
             const streetLine    = [formData.street, formData.streetNum, formData.apt ? `דירה ${formData.apt}` : ''].filter(Boolean).join(' ');
             const cityLine      = formData.city || '';
             const celebrantName = formData.celebrantName || (formData.celebrant || '').split(',')[0];
-            const ageStr        = formData.celebrantAge ? ` בת ${formData.celebrantAge}` : '';
+            const ageStr        = formData.celebrantAge ? ` חוגגת ${formData.celebrantAge}` : ' חוגגת';
 
-            drawWrapped(`${celebrantName}${ageStr} חוגגת`, H * 0.28, S * 1.08, PURPLE);
-            drawWrapped('ומזמינה אתכן',    H * 0.35, S * 1.08, PINK);
-            drawWrapped('לסדנת לב ניפוץ!', H * 0.42, S * 1.08, PINK);
+            drawWrapped(`${celebrantName}${ageStr}`, H * 0.28, S * 1.08, PURPLE);
+            drawWrapped('ומזמינה אתכן',    H * 0.33, S * 0.88, PINK);
+            drawWrapped('לסדנת לב ניפוץ!', H * 0.39, S * 0.88, PINK);
 
-            drawLine('אז איפה זה קורה?', H * 0.53,  S * 0.70, SOFT);
-            drawLine(streetLine,          H * 0.565, S * 0.78, PURPLE);
-            drawLine(cityLine,            H * 0.585, S * 0.78, PURPLE);
+            drawLine('אז איפה זה קורה?', H * 0.50,  S * 0.70, SOFT);
+            drawLine(streetLine,          H * 0.555, S * 0.78, PURPLE);
+            drawLine(cityLine,            H * 0.575, S * 0.78, PURPLE);
 
-            drawLine('מתי?',                        H * 0.63,  S * 0.70, SOFT);
-            drawLine(`${dayName} | ${dateStr}`,     H * 0.68,  S * 0.72, PURPLE);
-            drawLine(`בשעה ${formData.time}`,       H * 0.72,  S * 0.72, PURPLE);
+            drawLine('מתי?',                        H * 0.635, S * 0.85, SOFT);
+            drawLine(`${dayName} | ${dateStr}`,     H * 0.685, S * 0.72, PURPLE);
+            drawLine(`בשעה ${formData.time}`,       H * 0.725, S * 0.72, PURPLE);
 
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
             const footerSize = S * 0.68;
