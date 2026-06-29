@@ -56,26 +56,10 @@ async function init() {
 }
 
 // ── Time picker ───────────────────────────────────────────────────
-let _selectedHour = null;
-
-window.selectHour = h => {
-    _selectedHour = h;
-    document.querySelectorAll('.time-hours button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.time-hours button')[h - 10].classList.add('active');
-    const minRow = document.getElementById('time-minutes');
-    minRow.classList.remove('hidden');
-    minRow.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-    document.getElementById('f-time').value = '';
-    document.getElementById('time-display').textContent = '';
-};
-
-window.selectMinute = m => {
-    if (_selectedHour === null) return;
-    document.querySelectorAll('.time-minutes button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.time-minutes button')[m / 15].classList.add('active');
-    const val = `${String(_selectedHour).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-    document.getElementById('f-time').value = val;
-    document.getElementById('time-display').textContent = `⏰ ${val}`;
+window.updateTime = () => {
+    const h = document.getElementById('f-time-hour').value;
+    const m = document.getElementById('f-time-min').value;
+    document.getElementById('f-time').value = (h && m) ? `${h.padStart(2,'0')}:${m}` : '';
 };
 
 function initPhoneFormat() {

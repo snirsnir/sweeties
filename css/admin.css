@@ -245,43 +245,9 @@ body {
 #submit-btn.pulse { animation: pulse-glow 1.6s ease-in-out infinite; }
 
 /* ===== TIME PICKER ===== */
-.time-picker { display: flex; flex-direction: column; gap: 10px; }
-.time-hours  { display: flex; flex-wrap: wrap; gap: 8px; }
-.time-minutes { display: flex; gap: 10px; }
-.time-hours button, .time-minutes button {
-    border: 2px solid var(--border);
-    background: white;
-    border-radius: 10px;
-    padding: 9px 13px;
-    font-size: 15px;
-    font-family: 'Heebo', sans-serif;
-    font-weight: 600;
-    color: var(--dark);
-    cursor: pointer;
-    transition: all 0.15s;
-    min-width: 46px;
-    text-align: center;
-}
-.time-hours button:hover, .time-minutes button:hover {
-    border-color: var(--pink);
-    color: var(--pink);
-}
-.time-hours button.active {
-    background: var(--purple);
-    border-color: var(--purple);
-    color: white;
-}
-.time-minutes button.active {
-    background: var(--pink);
-    border-color: var(--pink);
-    color: white;
-}
-.time-minutes { padding: 4px 0 2px; border-top: 1px solid var(--border); }
-.time-minutes button { flex: 1; font-size: 16px; padding: 11px 8px; }
-.time-display {
-    font-size: 20px; font-weight: 700; color: var(--purple);
-    min-height: 28px; text-align: center; letter-spacing: 1px;
-}
+.time-selects { display: flex; align-items: center; gap: 6px; }
+.time-selects select { flex: 1; }
+.time-colon { font-size: 22px; font-weight: 700; color: var(--gray); line-height: 1; }
 
 /* ===== AGREEMENT MODAL ===== */
 .agreement-modal { max-width: 640px; }
