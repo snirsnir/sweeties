@@ -78,9 +78,9 @@ export async function generateInvite(formData, basePath = '') {
             drawLine(streetLine,          H * 0.555, S * 0.78, PURPLE);
             drawLine(cityLine,            H * 0.595, S * 0.78, PURPLE);
 
-            drawLine('מתי?',                        H * 0.635, S * 0.85, SOFT);
-            drawLine(`${dayName} | ${dateStr}`,     H * 0.685, S * 0.72, PURPLE);
-            drawLine(`בשעה ${formData.time}`,       H * 0.725, S * 0.72, PURPLE);
+            drawLine('מתי?',                        H * 0.655, S * 0.92, SOFT);
+            drawLine(`${dayName} | ${dateStr}`,     H * 0.705, S * 0.80, PURPLE);
+            drawLine(`בשעה ${formData.time}`,       H * 0.745, S * 0.80, PURPLE);
 
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
             const footerSize = S * 0.68;
