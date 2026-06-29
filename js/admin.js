@@ -192,7 +192,9 @@ async function loadEvents() {
                 <td>${eventDate}</td>
                 <td>${o.time || '—'}</td>
                 <td>${o.address || '—'}</td>
-                <td style="max-width:180px;white-space:pre-wrap;font-size:12px;">${o.package || '—'}</td>
+                <td>
+                    ${o.inviteImage ? `<button class="btn-sm btn-invite" onclick="previewInvite('${d.id}')">🎉 הזמנה</button>` : '—'}
+                </td>
                 <td>
                     <button class="btn-sm" onclick="showEventDetails('${d.id}')">פרטים מלאים</button>
                     <button class="btn-sm btn-delete" onclick="deleteOrder('${d.id}', '${o.customerName}')">🗑️ מחק</button>
@@ -206,7 +208,7 @@ async function loadEvents() {
                 <thead><tr>
                     <th>לקוחה</th><th>טלפון</th><th>דוא"ל</th>
                     <th>חוגג/ת</th><th>תאריך</th><th>שעה</th>
-                    <th>כתובת</th><th>חבילה</th><th></th>
+                    <th>כתובת</th><th>הזמנה</th><th></th>
                 </tr></thead>
                 <tbody>${rows}</tbody>
             </table>
@@ -232,6 +234,23 @@ window.deleteOrder = async (id, name) => {
     } catch (e) {
         alert('שגיאה במחיקה: ' + e.message);
     }
+};
+
+// ── Invite preview lightbox ───────────────────────────────────────
+window.previewInvite = id => {
+    const o = window._eventsData?.[id];
+    if (!o?.inviteImage) return;
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out;';
+    overlay.innerHTML = `
+        <div style="position:relative;max-width:420px;width:100%;">
+            <img src="${o.inviteImage}" style="width:100%;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+            <button onclick="this.closest('div[style]').remove()" style="position:absolute;top:-14px;left:-14px;width:34px;height:34px;border-radius:50%;background:white;border:none;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">✕</button>
+            <a href="${o.inviteImage}" download="sweeties-invite.jpg" style="display:block;margin-top:12px;text-align:center;background:white;color:#7c3aed;padding:10px;border-radius:10px;font-weight:700;text-decoration:none;font-family:Heebo,Arial;">💾 הורדת תמונה</a>
+        </div>`;
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
 };
 
 // ── Event details modal ───────────────────────────────────────────
