@@ -261,38 +261,68 @@ async function generateInvite(formData) {
                 return yStart + lines.length * size * spacing;
             }
 
-            const dateStr = formData.date
-                ? new Date(formData.date).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
+            const DAY_NAMES = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+            const dateObj   = formData.date ? new Date(formData.date) : null;
+            const dateStr   = dateObj
+                ? dateObj.toLocaleDateString('he-IL', { day: 'numeric', month: 'long' })
                 : '—';
+            const dayName   = dateObj ? `יום ${DAY_NAMES[dateObj.getDay()]}` : '';
+
+            // כתובת מפוצלת
+            const streetLine = [formData.street, formData.streetNum, formData.apt ? `דירה ${formData.apt}` : ''].filter(Boolean).join(' ');
+            const cityLine   = formData.city || '';
 
             const celebrantName = formData.celebrantName || formData.celebrant.split(',')[0];
+
+            // פונקציית רקע מעוגל לפוטר
+            function drawPill(y, w, h, color, alpha = 0.18) {
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle   = color;
+                const r = h / 2, x = cx - w / 2;
+                ctx.beginPath();
+                ctx.moveTo(x + r, y - h / 2);
+                ctx.lineTo(x + w - r, y - h / 2);
+                ctx.arc(x + w - r, y, r, -Math.PI / 2, Math.PI / 2);
+                ctx.lineTo(x + r, y + h / 2);
+                ctx.arc(x + r, y, r, Math.PI / 2, -Math.PI / 2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
 
             let y = H * 0.28;
             const gap = S * 0.7;
 
-            // שורה 1: שם הילדה מזמינה אתכם
+            // כותרת ראשית
             y = drawWrapped(`${celebrantName} מזמינה אתכם`, y, S * 1.08, PURPLE);
-            // שורה 2: לנפץ איתה לבבות
-            y = drawWrapped('לנפץ איתה לבבות 🔨🍫', y, S * 1.08, PINK);
+            y = drawWrapped('לנפץ איתה לבבות', y, S * 1.08, PINK);
 
             y += gap * 1.2;
 
             // איפה?
-            drawLine('אז איפה זה קורה?', y, S * 0.72, SOFT);
-            y += S * 1.2;
-            y = drawWrapped(formData.address, y, S * 0.88, PURPLE);
+            drawLine('אז איפה זה קורה?', y, S * 0.70, SOFT);
+            y += S * 1.15;
+            drawLine(streetLine, y, S * 0.78, PURPLE);
+            y += S * 1.1;
+            drawLine(cityLine, y, S * 0.78, PURPLE);
 
-            y += gap;
+            y += gap * 1.1;
 
             // מתי?
-            drawLine('מתי?', y, S * 0.72, SOFT);
-            y += S * 1.2;
-            y = drawWrapped(`${dateStr}  |  בשעה ${formData.time}`, y, S * 0.88, PURPLE);
+            drawLine('מתי?', y, S * 0.70, SOFT);
+            y += S * 1.15;
+            drawLine(`${dayName} | ${dateStr} | בשעה ${formData.time}`, y, S * 0.72, PURPLE);
 
-            y += gap * 1.3;
+            y += gap * 1.5;
 
-            // footer
-            drawWrapped('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', y, S * 0.68, PURPLE);
+            // footer עם רקע
+            const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
+            const footerSize = S * 0.68;
+            ctx.font = `${footerSize}px ${FONT}`;
+            const footerW = Math.min(ctx.measureText(footerText).width + S * 1.2, maxW + S * 1.2);
+            drawPill(y, footerW, footerSize * 2.2, '#7c3aed', 0.15);
+            drawLine(footerText, y, footerSize, PURPLE);
 
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
