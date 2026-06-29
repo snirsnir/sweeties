@@ -70,7 +70,7 @@ export async function generateInvite(formData, basePath = '') {
             const celebrantName = formData.celebrantName || (formData.celebrant || '').split(',')[0];
             const ageStr        = formData.celebrantAge ? ` חוגגת ${formData.celebrantAge}` : ' חוגגת';
 
-            drawWrapped(`${celebrantName}${ageStr}`, H * 0.26, S * 1.15, PURPLE);
+            drawWrapped(`${celebrantName}${ageStr}`, H * 0.26, S * 1.25, PURPLE);
             drawWrapped('ומזמינה אתכן',    H * 0.33, S * 0.97, PINK);
             drawWrapped('לסדנת לב ניפוץ!', H * 0.37, S * 0.97, PINK);
 
