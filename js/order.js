@@ -80,7 +80,8 @@ function resizePad() {
 }
 
 // ── Agreement text ────────────────────────────────────────────────
-function agreementHTML(name) {
+function agreementHTML(name, guests) {
+    const guestsLine = guests ? ` והערכת כמות משתתפים: כ-${guests} ילדים` : '';
     return `<div class="agreement-body">
 <p class="ag-intro">
 הסכם זה נערך בין <strong>Sweeties קופסאות ניפוץ</strong> לבין <strong>${name}</strong>,
@@ -88,7 +89,7 @@ function agreementHTML(name) {
 </p>
 
 <h4>סעיף 1: פרטי ההזמנה</h4>
-<p>1. Sweeties תספק את השירותים בהתאם לפרטים שסוכמו בין הצדדים, לרבות תאריך, מיקום, סוג והערכה של משתתפות.</p>
+<p>1. Sweeties תספק את השירותים בהתאם לפרטים שסוכמו בין הצדדים, לרבות תאריך, מיקום, סוג${guestsLine}.</p>
 <p>2. הלקוח/ה מתחייב/ת לספק פרטים נכונים ומדויקים לביצוע ההזמנה.</p>
 
 <h4>סעיף 2: אספקת השירותים</h4>
@@ -123,8 +124,9 @@ function agreementHTML(name) {
 // ── Agreement modal ───────────────────────────────────────────────
 window.openAgreement = () => {
     const name = document.getElementById('f-name').value;
-    const agText = document.getElementById('agreement-text');
-    agText.innerHTML = agreementHTML(name);
+    const agText  = document.getElementById('agreement-text');
+    const guests  = document.getElementById('f-guests').value.trim();
+    agText.innerHTML = agreementHTML(name, guests);
     document.getElementById('agreement-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
