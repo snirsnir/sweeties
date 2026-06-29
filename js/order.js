@@ -296,14 +296,14 @@ async function generateInvite(formData) {
             drawWrapped('לנפץ איתה לבבות', H * 0.38, S * 1.08, PINK);
 
             // איפה?
-            drawLine('אז איפה זה קורה?', H * 0.52,  S * 0.70, SOFT);
-            drawLine(streetLine,          H * 0.54,  S * 0.78, PURPLE);
-            drawLine(cityLine,            H * 0.60,  S * 0.78, PURPLE);
+            drawLine('אז איפה זה קורה?', H * 0.51,  S * 0.70, SOFT);
+            drawLine(streetLine,          H * 0.555, S * 0.78, PURPLE);
+            drawLine(cityLine,            H * 0.585, S * 0.78, PURPLE);
 
             // מתי?
-            drawLine('מתי?',                         H * 0.675, S * 0.70, SOFT);
-            drawLine(`${dayName} | ${dateStr}`,      H * 0.735, S * 0.72, PURPLE);
-            drawLine(`בשעה ${formData.time}`,        H * 0.795, S * 0.72, PURPLE);
+            drawLine('מתי?',                         H * 0.655, S * 0.70, SOFT);
+            drawLine(`${dayName} | ${dateStr}`,      H * 0.705, S * 0.72, PURPLE);
+            drawLine(`בשעה ${formData.time}`,        H * 0.755, S * 0.72, PURPLE);
 
             // footer עם רקע
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
