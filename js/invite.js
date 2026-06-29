@@ -70,9 +70,9 @@ export async function generateInvite(formData, basePath = '') {
             const celebrantName = formData.celebrantName || (formData.celebrant || '').split(',')[0];
             const ageStr        = formData.celebrantAge ? ` חוגגת ${formData.celebrantAge}` : ' חוגגת';
 
-            drawWrapped(`${celebrantName}${ageStr}`, H * 0.28, S * 1.08, PURPLE);
+            drawWrapped(`${celebrantName}${ageStr}`, H * 0.26, S * 1.15, PURPLE);
             drawWrapped('ומזמינה אתכן',    H * 0.33, S * 0.88, PINK);
-            drawWrapped('לסדנת לב ניפוץ!', H * 0.39, S * 0.88, PINK);
+            drawWrapped('לסדנת לב ניפוץ!', H * 0.37, S * 0.88, PINK);
 
             drawLine('אז איפה זה קורה?', H * 0.50,  S * 0.70, SOFT);
             drawLine(streetLine,          H * 0.555, S * 0.78, PURPLE);
