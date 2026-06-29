@@ -205,7 +205,9 @@ window.confirmSignature = () => {
 
 // ── Generate invite image ─────────────────────────────────────────
 async function generateInvite(formData) {
-    try { await document.fonts.load('bold 48px Rubik'); } catch(e) {}
+    // טעינת פונט FbAnimator מהתיקייה המקומית
+    const font = new FontFace('FbAnimator', 'url(fonts/FbAnimator-Regular.ttf)');
+    try { await font.load(); document.fonts.add(font); } catch(e) { console.warn('Font load failed', e); }
 
     return new Promise(resolve => {
         const img = new Image();
@@ -222,17 +224,16 @@ async function generateInvite(formData) {
             ctx.textBaseline = 'middle';
             ctx.direction    = 'rtl';
 
-            const S    = Math.round(W * 0.060);
-            const maxW = W * 0.65;
+            const FONT  = 'FbAnimator, Arial';
+            const S     = Math.round(W * 0.062);
+            const maxW  = W * 0.65;
 
-            // צבעים אחידים
             const PINK   = '#c2185b';
             const PURPLE = '#6a1b9a';
-            const SOFT   = '#8e4baa';
+            const SOFT   = '#9c6bb5';
 
-            // גלישת שורות ב-70% רוחב
-            function wrapLines(text, size, bold = false) {
-                ctx.font = `${bold ? 'bold ' : ''}${size}px Rubik, Arial`;
+            function wrapLines(text, size) {
+                ctx.font = `${size}px ${FONT}`;
                 const words = text.split(' ');
                 const lines = [];
                 let cur = '';
@@ -247,17 +248,15 @@ async function generateInvite(formData) {
                 return lines;
             }
 
-            // ציור שורה אחת
-            function drawLine(text, y, size, color, bold = true) {
-                ctx.font      = `${bold ? 'bold ' : ''}${size}px Rubik, Arial`;
+            function drawLine(text, y, size, color) {
+                ctx.font      = `${size}px ${FONT}`;
                 ctx.fillStyle = color;
                 ctx.fillText(text, cx, y, maxW);
             }
 
-            // ציור עם גלישה — מחזיר Y הבא
-            function drawWrapped(text, yStart, size, color, bold, spacing = 1.45) {
-                const lines = wrapLines(text, size, bold);
-                lines.forEach((l, i) => drawLine(l, yStart + i * size * spacing, size, color, bold));
+            function drawWrapped(text, yStart, size, color, spacing = 1.5) {
+                const lines = wrapLines(text, size);
+                lines.forEach((l, i) => drawLine(l, yStart + i * size * spacing, size, color));
                 return yStart + lines.length * size * spacing;
             }
 
@@ -265,34 +264,36 @@ async function generateInvite(formData) {
                 ? new Date(formData.date).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
                 : '—';
 
-            let y = H * 0.285;
-            const gap = S * 0.55;
+            const celebrantName = formData.celebrantName || formData.celebrant.split(',')[0];
 
-            // שורה 1+2: כותרת ראשית
-            y = drawWrapped(`${formData.celebrant} מזמינה אתכם לנפץ`, y, S * 1.0, PURPLE, true);
-            y = drawWrapped('איתה לבבות 🔨🍫', y, S * 1.0, PINK, true);
+            let y = H * 0.28;
+            const gap = S * 0.7;
 
-            y += gap * 1.4;
-
-            // איפה?
-            drawLine('אז איפה זה קורה?', y, S * 0.68, SOFT, false);
-            y += S * 1.1;
-            y = drawWrapped(formData.address, y, S * 0.85, PURPLE, true);
+            // שורה 1: שם הילדה מזמינה אתכם
+            y = drawWrapped(`${celebrantName} מזמינה אתכם`, y, S * 1.08, PURPLE);
+            // שורה 2: לנפץ איתה לבבות
+            y = drawWrapped('לנפץ איתה לבבות 🔨🍫', y, S * 1.08, PINK);
 
             y += gap * 1.2;
 
-            // מתי?
-            drawLine('מתי?', y, S * 0.68, SOFT, false);
-            y += S * 1.1;
-            y = drawWrapped(`${dateStr} | בשעה ${formData.time}`, y, S * 0.85, PURPLE, true);
+            // איפה?
+            drawLine('אז איפה זה קורה?', y, S * 0.72, SOFT);
+            y += S * 1.2;
+            y = drawWrapped(formData.address, y, S * 0.88, PURPLE);
 
-            y += gap * 1.4;
+            y += gap;
+
+            // מתי?
+            drawLine('מתי?', y, S * 0.72, SOFT);
+            y += S * 1.2;
+            y = drawWrapped(`${dateStr}  |  בשעה ${formData.time}`, y, S * 0.88, PURPLE);
+
+            y += gap * 1.3;
 
             // footer
-            drawWrapped('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', y, S * 0.65, PURPLE, false);
-            drawLine('#sweeties_IL', y + S * 1.1, S * 0.65, PINK, false);
+            drawWrapped('מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜', y, S * 0.68, PURPLE);
 
-            resolve(c.toDataURL('image/jpeg', 0.90));
+            resolve(c.toDataURL('image/jpeg', 0.92));
         };
         img.onerror = () => resolve(null);
         img.src = 'invite/invite.png?' + Date.now();
