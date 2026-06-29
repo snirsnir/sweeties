@@ -19,6 +19,7 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 // ── State ─────────────────────────────────────────────────────────
 let signaturePad  = null;
 let signatureData = null;
+let inviteUrl     = '';
 const orderId = new URLSearchParams(location.search).get('id');
 
 // ── Screens ───────────────────────────────────────────────────────
@@ -298,6 +299,25 @@ async function generateInvite(formData) {
     });
 }
 
+// ── Share invite ──────────────────────────────────────────────────
+window.shareInvite = async () => {
+    if (!inviteUrl) return;
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: 'ההזמנה שלי מ-Sweeties 💜',
+                text:  'מוזמנים לחגיגה! 🔨🍫',
+                url:   inviteUrl
+            });
+        } catch (e) { /* user cancelled */ }
+    } else {
+        await navigator.clipboard.writeText(inviteUrl);
+        const btn = document.getElementById('share-btn');
+        btn.textContent = '✓ הקישור הועתק!';
+        setTimeout(() => { btn.textContent = '📲 שתפי את ההזמנה'; }, 2500);
+    }
+};
+
 // ── Upload invite to Firebase Storage ────────────────────────────
 async function uploadInvite(base64DataUrl) {
     const storageRef = ref(storage, `invites/${orderId}.jpg`);
@@ -363,7 +383,6 @@ window.submitOrder = async () => {
     try {
         // Generate invite + upload to Firebase Storage
         const inviteBase64 = await generateInvite(formData);
-        let inviteUrl = '';
         if (inviteBase64) {
             inviteUrl = await uploadInvite(inviteBase64);
         }

@@ -308,6 +308,15 @@ body {
 .success-card h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--purple); }
 .success-card p { font-size: 15px; line-height: 1.7; color: var(--gray); margin-bottom: 8px; }
 .success-card a { color: var(--pink); text-decoration: none; font-weight: 600; }
+.btn-share {
+    display: inline-block; margin: 16px 0 8px;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    color: white; border: none; border-radius: 50px;
+    padding: 14px 32px; font-size: 16px; font-weight: 700;
+    font-family: 'Heebo', sans-serif; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.btn-share:hover { opacity: 0.88; transform: scale(1.02); }
 
 @media (max-width: 480px) {
     .form-row { grid-template-columns: 1fr; }
