@@ -66,20 +66,20 @@
                 <div class="form-group">
                     <label>⏰ שעת האירוע *</label>
                     <div class="time-selects">
-                        <select id="f-time-hour" onchange="updateTime()">
-                            <option value="">שעה</option>
-                            <option>10</option><option>11</option><option>12</option><option>13</option>
-                            <option>14</option><option>15</option><option>16</option><option>17</option>
-                            <option>18</option><option>19</option><option>20</option><option>21</option>
-                            <option>22</option>
-                        </select>
-                        <span class="time-colon">:</span>
                         <select id="f-time-min" onchange="updateTime()">
                             <option value="">דק׳</option>
                             <option value="00">00</option>
                             <option value="15">15</option>
                             <option value="30">30</option>
                             <option value="45">45</option>
+                        </select>
+                        <span class="time-colon">:</span>
+                        <select id="f-time-hour" onchange="updateTime()">
+                            <option value="">שעה</option>
+                            <option>10</option><option>11</option><option>12</option><option>13</option>
+                            <option>14</option><option>15</option><option>16</option><option>17</option>
+                            <option>18</option><option>19</option><option>20</option><option>21</option>
+                            <option>22</option>
                         </select>
                     </div>
                     <input type="hidden" id="f-time">
