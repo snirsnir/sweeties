@@ -296,21 +296,21 @@ async function generateInvite(formData) {
             drawWrapped('לנפץ איתה לבבות', H * 0.38, S * 1.08, PINK);
 
             // איפה?
-            drawLine('אז איפה זה קורה?', H * 0.47, S * 0.70, SOFT);
-            drawLine(streetLine, H * 0.535, S * 0.78, PURPLE);
-            drawLine(cityLine,   H * 0.60,  S * 0.78, PURPLE);
+            drawLine('אז איפה זה קורה?', H * 0.50, S * 0.70, SOFT);
+            drawLine(streetLine,          H * 0.56, S * 0.78, PURPLE);
+            drawLine(cityLine,            H * 0.62, S * 0.78, PURPLE);
 
             // מתי?
-            drawLine('מתי?', H * 0.665, S * 0.70, SOFT);
-            drawLine(`${dayName} | ${dateStr} | בשעה ${formData.time}`, H * 0.725, S * 0.72, PURPLE);
+            drawLine('מתי?',              H * 0.68, S * 0.70, SOFT);
+            drawLine(`${dayName} | ${dateStr} | בשעה ${formData.time}`, H * 0.74, S * 0.72, PURPLE);
 
             // footer עם רקע
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
             const footerSize = S * 0.68;
             ctx.font = `${footerSize}px ${FONT}`;
             const footerW = Math.min(ctx.measureText(footerText).width + S * 1.4, maxW + S * 1.4);
-            drawPill(H * 0.815, footerW, footerSize * 2.4, '#7c3aed', 0.15);
-            drawLine(footerText, H * 0.815, footerSize, PURPLE);
+            drawPill(H * 0.80, footerW, footerSize * 2.4, '#7c3aed', 0.15);
+            drawLine(footerText, H * 0.80, footerSize, PURPLE);
 
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
