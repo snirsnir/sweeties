@@ -366,16 +366,18 @@ window.submitOrder = async () => {
 
         // Send email via EmailJS
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, {
-            to_name:       formData.name,
-            to_email:      formData.email,
-            admin_email:   ADMIN_EMAIL,
-            phone:         formData.phone,
-            event_date:    fmtDate(formData.date),
-            event_time:    formData.time,
-            celebrant:     formData.celebrant,
-            event_address: formData.address,
-            decoration:    formData.decoration || 'לא צוין',
-            extras:        formData.extras      || 'לא צוין',
+            to_name:          formData.name,
+            to_email:         formData.email,
+            admin_email:      ADMIN_EMAIL,
+            phone:            formData.phone,
+            event_date:       fmtDate(formData.date),
+            event_time:       formData.time,
+            celebrant:        formData.celebrant,
+            guests:           formData.guests   || 'לא צוין',
+            event_address:    formData.address,
+            decoration:       formData.decoration || 'לא צוין',
+            extras:           formData.extras      || 'לא צוין',
+            agreement_signed: '✓ ההסכם נחתם ונשמר',
             // invite_image ו-signature_img מושהים עד שדרוג PLAN ב-EmailJS
         });
 
