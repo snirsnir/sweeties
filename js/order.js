@@ -302,20 +302,38 @@ async function generateInvite(formData) {
 // ── Share invite ──────────────────────────────────────────────────
 window.shareInvite = async () => {
     if (!inviteUrl) return;
-    if (navigator.share) {
-        try {
+    const btn = document.getElementById('share-btn');
+    btn.textContent = 'מכינה… ⏳';
+    btn.disabled = true;
+
+    try {
+        // הורדת התמונה כ-Blob כדי לשתף קובץ אמיתי
+        const res  = await fetch(inviteUrl);
+        const blob = await res.blob();
+        const file = new File([blob], 'sweeties-invite.jpg', { type: 'image/jpeg' });
+
+        if (navigator.canShare?.({ files: [file] })) {
             await navigator.share({
+                files: [file],
                 title: 'ההזמנה שלי מ-Sweeties 💜',
                 text:  'מוזמנים לחגיגה! 🔨🍫',
-                url:   inviteUrl
             });
-        } catch (e) { /* user cancelled */ }
-    } else {
-        await navigator.clipboard.writeText(inviteUrl);
-        const btn = document.getElementById('share-btn');
-        btn.textContent = '✓ הקישור הועתק!';
-        setTimeout(() => { btn.textContent = '📲 שתפי את ההזמנה'; }, 2500);
+        } else if (navigator.share) {
+            // fallback — שיתוף קישור
+            await navigator.share({ url: inviteUrl, title: 'ההזמנה שלי מ-Sweeties 💜' });
+        } else {
+            // דסקטופ — העתקת קישור
+            await navigator.clipboard.writeText(inviteUrl);
+            btn.textContent = '✓ הקישור הועתק!';
+            setTimeout(() => { btn.textContent = '📲 שתפי את ההזמנה'; btn.disabled = false; }, 2500);
+            return;
+        }
+    } catch (e) {
+        if (e.name !== 'AbortError') console.error(e);
     }
+
+    btn.textContent = '📲 שתפי את ההזמנה';
+    btn.disabled = false;
 };
 
 // ── Upload invite to Firebase Storage ────────────────────────────
