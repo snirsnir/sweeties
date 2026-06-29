@@ -74,9 +74,9 @@ export async function generateInvite(formData, basePath = '') {
             drawWrapped('ומזמינה אתכן',    H * 0.33, S * 0.97, PINK);
             drawWrapped('לסדנת לב ניפוץ!', H * 0.37, S * 0.97, PINK);
 
-            drawLine('אז איפה זה קורה?', H * 0.50,  S * 0.70, SOFT);
-            drawLine(streetLine,          H * 0.555, S * 0.78, PURPLE);
-            drawLine(cityLine,            H * 0.595, S * 0.78, PURPLE);
+            drawLine('אז איפה זה קורה?', H * 0.52,  S * 0.80, SOFT);
+            drawLine(streetLine,          H * 0.565, S * 0.86, PURPLE);
+            drawLine(cityLine,            H * 0.605, S * 0.86, PURPLE);
 
             drawLine('מתי?',                        H * 0.655, S * 0.92, SOFT);
             drawLine(`${dayName} | ${dateStr}`,     H * 0.705, S * 0.80, PURPLE);
