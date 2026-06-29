@@ -11,7 +11,7 @@ import {
 
 const app     = initializeApp(firebaseConfig);
 const db      = getFirestore(app);
-const storage = getStorage(app);
+const storage = getStorage(app, 'gs://sweeties-7cfd2.firebasestorage.app');
 
 // EmailJS init
 emailjs.init(EMAILJS_PUBLIC_KEY);
