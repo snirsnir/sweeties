@@ -72,10 +72,13 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
 
             drawLine(`${celebrantName} חוגגת`, nameY, S * 1.20, PURPLE);
             if (formData.celebrantAge) {
-                const ageY = nameY + S * 1.44;
-                drawPill(ageY, W, S * 1.25 * 2.8, '#fff', 0.55);
-                ctx.font = `${S * 1.25}px ${FONT}`; ctx.fillStyle = PINK;
-                ctx.fillText(formData.celebrantAge, cx, ageY, W * 0.90);
+                const ageY    = nameY + S * 1.44;
+                const ageSize = S * 1.25;
+                ctx.font = `${ageSize}px ${FONT}`;
+                const ageW = ctx.measureText(formData.celebrantAge).width + S * 1.2;
+                drawPill(ageY, ageW, ageSize * 2.2, '#fff', 0.55);
+                ctx.fillStyle = PINK;
+                ctx.fillText(formData.celebrantAge, cx, ageY);
             }
 
             drawWrapped('ומזמינה אתכן',    H * 0.35, S * 0.97, PINK);
