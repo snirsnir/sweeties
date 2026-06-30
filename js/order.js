@@ -65,6 +65,7 @@ async function init() {
 
         initSignaturePad();
         initPhoneFormat();
+        initReferral();
         buildTemplateGrid();
         show('order');
     } catch (e) {
@@ -265,6 +266,26 @@ async function uploadInvite(base64DataUrl) {
     return await getDownloadURL(storageRef);
 }
 
+// ── Referral source ───────────────────────────────────────────────
+function initReferral() {
+    document.querySelectorAll('input[name="referral"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            const other = document.getElementById('f-referral-other');
+            other.classList.toggle('hidden', radio.value !== 'אחר');
+        });
+    });
+}
+
+function getReferral() {
+    const checked = document.querySelector('input[name="referral"]:checked');
+    if (!checked) return '';
+    if (checked.value === 'אחר') {
+        const txt = document.getElementById('f-referral-other')?.value.trim();
+        return txt ? `אחר: ${txt}` : 'אחר';
+    }
+    return checked.value;
+}
+
 // ── Template selection ────────────────────────────────────────────
 function buildTemplateGrid() {
     const container = document.getElementById('invite-templates');
@@ -351,6 +372,7 @@ window.submitOrder = async () => {
         address:       [get('f-street') + ' ' + get('f-street-num'), get('f-apt') ? 'דירה ' + get('f-apt') : '', get('f-city')].filter(Boolean).join(', '),
         decoration:    get('f-decoration'),
         extras:        get('f-extras'),
+        referral:      getReferral(),
     };
 
     const required = [
@@ -419,6 +441,7 @@ window.submitOrder = async () => {
             extras:           formData.extras      || 'לא צוין',
             agreement_signed: '✓ ההסכם נחתם ונשמר',
             invite_url:       inviteUrl,
+            referral:         formData.referral || 'לא צוין',
         });
 
         show('success');

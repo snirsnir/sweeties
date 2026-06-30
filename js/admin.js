@@ -311,6 +311,7 @@ window.showEventDetails = id => {
                     ['🎨 תפאורה', o.decoration || '—'],
                     ['🍿 דוכני מזון', o.food || '—'],
                     ['✨ תוספות', o.extras || '—'],
+                    ['📣 איך הגיעו', o.referral || '—'],
                 ].map(([k,v]) => `<tr style="border-bottom:1px solid #e5e7eb;">
                     <td style="padding:8px 12px;font-weight:700;background:#f9f0ff;width:35%;">${k}</td>
                     <td style="padding:8px 12px;">${v || '—'}</td>

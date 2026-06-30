@@ -253,6 +253,36 @@ body {
 }
 #submit-btn.pulse { animation: pulse-glow 1.6s ease-in-out infinite; }
 
+/* ===== REFERRAL OPTIONS ===== */
+.referral-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.referral-opt {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+}
+.referral-opt input[type="radio"] { display: none; }
+.referral-opt span {
+    padding: 7px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 14px;
+    background: white;
+    color: var(--dark);
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    user-select: none;
+}
+.referral-opt input[type="radio"]:checked + span {
+    border-color: var(--purple);
+    background: var(--purple);
+    color: white;
+}
+
 /* ===== INVITE TEMPLATE PICKER ===== */
 .invite-templates {
     display: grid;
