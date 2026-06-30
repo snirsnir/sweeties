@@ -277,9 +277,9 @@ function renderCalendar() {
 
     document.getElementById('calendar-container').innerHTML = `
         <div class="cal-nav">
-            <button onclick="calNav(1)">&#8249;</button>
+            <button onclick="calNav(-1)">&#8249;</button>
             <strong>${MONTHS_HE[calMonth]} ${calYear}</strong>
-            <button onclick="calNav(-1)">&#8250;</button>
+            <button onclick="calNav(1)">&#8250;</button>
         </div>
         <div class="cal-grid">
             ${DAYS_HE.map(d => `<div class="cal-header-cell">${d}</div>`).join('')}
