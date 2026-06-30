@@ -86,10 +86,8 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
 
             const footerText = 'מחכים לכם לחגיגה חוויתית ומתוקה במיוחד 💜';
             const footerSize = S * 0.82;
-            ctx.font = `${footerSize}px ${FONT}`;
-            const footerW = Math.min(ctx.measureText(footerText).width + S * 1.4, maxW + S * 1.4);
-            drawPill(H * 0.855, footerW, footerSize * 2.4, '#7c3aed', 0.15);
-            drawLine(footerText, H * 0.855, footerSize, PURPLE);
+            drawPill(H * 0.855, W, footerSize * 2.8, '#fff', 0.55);
+            drawLine(footerText, H * 0.855, footerSize, PINK);
 
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
