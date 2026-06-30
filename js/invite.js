@@ -1,4 +1,4 @@
-export async function generateInvite(formData, basePath = '') {
+export async function generateInvite(formData, basePath = '', bgFile = 'invite/invite.png') {
     const font = new FontFace('FbAnimator', `url(${basePath}fonts/FbAnimator-Regular.ttf)`);
     try { await font.load(); document.fonts.add(font); } catch(e) { console.warn('Font load failed', e); }
 
@@ -92,6 +92,6 @@ export async function generateInvite(formData, basePath = '') {
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
         img.onerror = () => resolve(null);
-        img.src = `${basePath}invite/invite.png?` + Date.now();
+        img.src = `${basePath}${bgFile}?` + Date.now();
     });
 }

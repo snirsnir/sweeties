@@ -253,6 +253,40 @@ body {
 }
 #submit-btn.pulse { animation: pulse-glow 1.6s ease-in-out infinite; }
 
+/* ===== INVITE TEMPLATE PICKER ===== */
+.invite-templates {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.tmpl-card {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    text-align: center;
+    background: white;
+}
+.tmpl-card img {
+    width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    display: block;
+}
+.tmpl-card span {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 4px;
+    color: var(--dark);
+}
+.tmpl-card.selected {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 2px var(--purple);
+}
+.tmpl-card:hover { border-color: var(--pink); }
+
 /* ===== TIME PICKER ===== */
 .time-selects { display: flex; align-items: center; gap: 6px; }
 .time-selects select { flex: 1; }

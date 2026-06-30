@@ -22,6 +22,17 @@ let signaturePad   = null;
 let signatureData  = null;
 let inviteUrl      = '';
 let inviteBase64Cached = '';
+let selectedTemplate   = 'invite/invite.png';
+
+// ── Template definitions ──────────────────────────────────────────
+const TEMPLATES = [
+    { file: 'invite/invite.png', label: 'Sweeties' },
+    { file: 'invite/gabby.jpg',  label: 'גבי' },
+    { file: 'invite/kpop.jpg',   label: 'K-Pop' },
+    { file: 'invite/stitch.jpg', label: "סטיץ'" },
+    { file: 'invite/tiktok.jpg', label: 'טיקטוק' },
+    { file: 'invite/unicorn.jpg', label: 'חד קרן' },
+];
 const orderId = new URLSearchParams(location.search).get('id');
 
 // ── Screens ───────────────────────────────────────────────────────
@@ -54,6 +65,7 @@ async function init() {
 
         initSignaturePad();
         initPhoneFormat();
+        buildTemplateGrid();
         show('order');
     } catch (e) {
         console.error(e);
@@ -253,6 +265,62 @@ async function uploadInvite(base64DataUrl) {
     return await getDownloadURL(storageRef);
 }
 
+// ── Template selection ────────────────────────────────────────────
+function buildTemplateGrid() {
+    const container = document.getElementById('invite-templates');
+    if (!container) return;
+    container.innerHTML = TEMPLATES.map(t => `
+        <div class="tmpl-card ${t.file === selectedTemplate ? 'selected' : ''}"
+             data-file="${t.file}" onclick="selectTemplate('${t.file}')">
+            <img src="${t.file}" alt="${t.label}">
+            <span>${t.label}</span>
+        </div>`).join('');
+}
+
+window.selectTemplate = async (file) => {
+    selectedTemplate = file;
+    document.querySelectorAll('.tmpl-card').forEach(c =>
+        c.classList.toggle('selected', c.dataset.file === file));
+    await updateTemplatePreview();
+};
+
+async function updateTemplatePreview() {
+    const wrap = document.getElementById('template-preview-wrap');
+    const img  = document.getElementById('template-preview-img');
+    if (!wrap || !img) return;
+
+    const get = id => document.getElementById(id)?.value.trim() || '';
+    const previewData = {
+        celebrantName: get('f-celebrant-name') || 'שם הילדה',
+        celebrantAge:  get('f-celebrant-age')  || '',
+        celebrant:     get('f-celebrant-name') || 'שם הילדה',
+        street:        get('f-street')         || 'שם הרחוב',
+        streetNum:     get('f-street-num')     || '1',
+        apt:           get('f-apt'),
+        city:          get('f-city')           || 'עיר',
+        date:          get('f-date')           || '',
+        time:          get('f-time')           || '17:00',
+    };
+
+    wrap.classList.remove('hidden');
+    img.style.opacity = '0.4';
+    const base64 = await generateInvite(previewData, '', selectedTemplate);
+    if (base64) { img.src = base64; img.style.opacity = '1'; }
+}
+
+window.openInvitePreviewLightbox = () => {
+    const src = document.getElementById('template-preview-img')?.src;
+    if (!src) return;
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;';
+    overlay.innerHTML = `<div style="position:relative;max-width:440px;width:100%;">
+        <img src="${src}" style="width:100%;border-radius:16px;">
+        <button onclick="this.closest('[style]').remove()" style="position:absolute;top:-14px;left:-14px;width:34px;height:34px;border-radius:50%;background:white;border:none;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);">✕</button>
+    </div>`;
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+};
+
 // ── Format date ───────────────────────────────────────────────────
 function fmtDate(d) {
     if (!d) return '—';
@@ -310,7 +378,7 @@ window.submitOrder = async () => {
 
     try {
         // Generate invite + upload to Firebase Storage
-        inviteBase64Cached = await generateInvite(formData) || '';
+        inviteBase64Cached = await generateInvite(formData, '', selectedTemplate) || '';
         if (inviteBase64Cached) {
             try {
                 inviteUrl = await uploadInvite(inviteBase64Cached);
