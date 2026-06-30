@@ -68,14 +68,13 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
             const streetLine    = [formData.street, formData.streetNum, formData.apt ? `דירה ${formData.apt}` : ''].filter(Boolean).join(' ');
             const cityLine      = formData.city || '';
             const celebrantName = formData.celebrantName || (formData.celebrant || '').split(',')[0];
-            const nameSize = S * 1.25;
-            const nameY    = H * 0.24;
+            const nameY    = H * 0.23;
 
-            drawLine(`${celebrantName} חוגגת`, nameY, nameSize, PURPLE);
-            if (formData.celebrantAge) drawLine(formData.celebrantAge, nameY + nameSize * 1.3, nameSize, PURPLE);
+            drawLine(`${celebrantName} חוגגת`, nameY, S * 1.20, PURPLE);
+            if (formData.celebrantAge) drawLine(formData.celebrantAge, nameY + S * 1.25 * 1.15, S * 1.25, PURPLE);
 
-            drawWrapped('ומזמינה אתכן',    H * 0.36, S * 0.97, PINK);
-            drawWrapped('לסדנת לב ניפוץ!', H * 0.40, S * 0.97, PINK);
+            drawWrapped('ומזמינה אתכן',    H * 0.38, S * 0.97, PINK);
+            drawWrapped('לסדנת לב ניפוץ!', H * 0.42, S * 0.97, PINK);
 
             drawLine('אז איפה זה קורה?', H * 0.52,  S * 0.80, SOFT);
             drawLine(streetLine,          H * 0.565, S * 0.86, PURPLE);
