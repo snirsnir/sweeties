@@ -73,8 +73,8 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
             drawLine(`${celebrantName} חוגגת`, nameY, S * 1.20, PURPLE);
             if (formData.celebrantAge) drawLine(formData.celebrantAge, nameY + S * 1.44, S * 1.25, PURPLE);
 
-            drawWrapped('ומזמינה אתכן',    H * 0.36, S * 0.97, PINK);
-            drawWrapped('לסדנת לב ניפוץ!', H * 0.40, S * 0.97, PINK);
+            drawWrapped('ומזמינה אתכן',    H * 0.35, S * 0.97, PINK);
+            drawWrapped('לסדנת לב ניפוץ!', H * 0.39, S * 0.97, PINK);
 
             drawLine('אז איפה זה קורה?', H * 0.52,  S * 0.80, SOFT);
             drawLine(streetLine,          H * 0.565, S * 0.86, PURPLE);
