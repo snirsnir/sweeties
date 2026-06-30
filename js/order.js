@@ -179,15 +179,33 @@ function lockSignature(locked) {
     const canvas  = document.getElementById('signature-canvas');
     const btn     = document.getElementById('confirm-signature-btn');
     const section = document.querySelector('.signature-section');
-    canvas.style.pointerEvents  = locked ? 'none' : 'auto';
-    section.style.opacity       = locked ? '0.35' : '1';
-    section.style.transition    = 'opacity 0.4s';
-    btn.disabled                = locked;
-    btn.style.opacity           = locked ? '0.4' : '1';
-    if (!locked) {
+    canvas.style.pointerEvents = locked ? 'none' : 'auto';
+    section.style.opacity      = locked ? '0.35' : '1';
+    section.style.transition   = 'opacity 0.4s';
+    btn.disabled               = locked;
+    btn.style.opacity          = locked ? '0.4' : '1';
+
+    if (locked) {
+        const wrap = canvas.closest('.sig-wrap') || canvas.parentElement;
+        wrap.addEventListener('pointerdown', showScrollHint);
+        wrap.addEventListener('touchstart',  showScrollHint, { passive: true });
+    } else {
+        const wrap = canvas.closest('.sig-wrap') || canvas.parentElement;
+        wrap.removeEventListener('pointerdown', showScrollHint);
+        wrap.removeEventListener('touchstart',  showScrollHint);
         const hint = document.getElementById('scroll-hint');
         if (hint) hint.remove();
     }
+}
+
+function showScrollHint() {
+    let hint = document.getElementById('scroll-hint');
+    if (hint) { hint.classList.add('shake'); setTimeout(() => hint.classList.remove('shake'), 400); return; }
+    hint = document.createElement('p');
+    hint.id = 'scroll-hint';
+    hint.textContent = '📖 יש לקרוא את ההסכם עד הסוף לפני החתימה';
+    hint.style.cssText = 'color:#c2185b;font-size:13px;font-weight:700;margin-top:8px;text-align:center;animation:fadeIn 0.3s ease;';
+    document.querySelector('.signature-section').appendChild(hint);
 }
 
 window.closeAgreement = () => {
