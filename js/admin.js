@@ -306,11 +306,9 @@ window.showEventDetails = id => {
                     ['📅 תאריך', eventDate],
                     ['⏰ שעה', o.time],
                     ['📍 כתובת', o.address],
-                    ['📦 חבילה', o.package],
-                    ['🎭 בובות', o.characters || '—'],
-                    ['🎨 תפאורה', o.decoration || '—'],
-                    ['🍿 דוכני מזון', o.food || '—'],
-                    ['✨ תוספות', o.extras || '—'],
+                    ['👥 הערכת משתתפים', o.guests || '—'],
+                    ['🎨 עיצוב מועדף', o.decoration || '—'],
+                    ['📝 הערות נוספות', o.extras || '—'],
                     ['📣 איך הגיעו', o.referral || '—'],
                 ].map(([k,v]) => `<tr style="border-bottom:1px solid #e5e7eb;">
                     <td style="padding:8px 12px;font-weight:700;background:#f9f0ff;width:35%;">${k}</td>
