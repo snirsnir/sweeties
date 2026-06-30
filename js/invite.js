@@ -88,7 +88,7 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
             const footerSize = S * 0.82;
             drawPill(H * 0.855, W, footerSize * 2.8, '#fff', 0.55);
             ctx.font = `${footerSize}px ${FONT}`; ctx.fillStyle = PINK;
-            ctx.fillText(footerText, cx, H * 0.855);
+            ctx.fillText(footerText, cx, H * 0.855, W * 0.90);
 
             resolve(c.toDataURL('image/jpeg', 0.92));
         };
