@@ -224,6 +224,69 @@ async function loadEvents() {
     }
 }
 
+// ── View toggle ───────────────────────────────────────────────────
+let currentView = 'table';
+let calYear, calMonth;
+
+window.switchView = (view) => {
+    currentView = view;
+    document.getElementById('view-table-btn').classList.toggle('active', view === 'table');
+    document.getElementById('view-cal-btn').classList.toggle('active', view === 'calendar');
+    document.getElementById('events-container').classList.toggle('hidden', view === 'calendar');
+    document.getElementById('calendar-container').classList.toggle('hidden', view === 'table');
+    if (view === 'calendar') renderCalendar();
+};
+
+// ── Calendar ──────────────────────────────────────────────────────
+window.calNav = (delta) => { calMonth += delta; if (calMonth > 11) { calMonth = 0; calYear++; } if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); };
+
+function renderCalendar() {
+    const now = new Date();
+    if (calYear === undefined) { calYear = now.getFullYear(); calMonth = now.getMonth(); }
+
+    const events = window._eventsData || {};
+    // group events by date string YYYY-MM-DD
+    const byDate = {};
+    Object.entries(events).forEach(([id, o]) => {
+        const d = o.eventDate || o.date;
+        if (!d) return;
+        const key = d.slice(0, 10);
+        if (!byDate[key]) byDate[key] = [];
+        byDate[key].push({ id, name: o.customerName, time: o.time });
+    });
+
+    const MONTHS_HE = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+    const DAYS_HE   = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+    let cells = '';
+    // blank cells before first day
+    for (let i = 0; i < firstDay; i++) cells += '<div class="cal-cell empty"></div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+        const key = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const evs = byDate[key] || [];
+        const badges = evs.map(e => `<button class="cal-event-badge" onclick="showEventDetails('${e.id}')">${e.name}${e.time ? ' '+e.time : ''}</button>`).join('');
+        const today = now.getFullYear()===calYear && now.getMonth()===calMonth && now.getDate()===d;
+        cells += `<div class="cal-cell${today?' today':''}${evs.length?' has-event':''}">
+            <span class="cal-day-num">${d}</span>
+            ${badges}
+        </div>`;
+    }
+
+    document.getElementById('calendar-container').innerHTML = `
+        <div class="cal-nav">
+            <button onclick="calNav(-1)">&#8250;</button>
+            <strong>${MONTHS_HE[calMonth]} ${calYear}</strong>
+            <button onclick="calNav(1)">&#8249;</button>
+        </div>
+        <div class="cal-grid">
+            ${DAYS_HE.map(d => `<div class="cal-header-cell">${d}</div>`).join('')}
+            ${cells}
+        </div>`;
+}
+
 // ── Delete order ──────────────────────────────────────────────────
 window.deleteOrder = async (id, name) => {
     if (!confirm(`למחוק את ההזמנה של ${name}?\nלא ניתן לשחזר.`)) return;

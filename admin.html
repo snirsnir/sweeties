@@ -60,8 +60,15 @@
 
         <!-- אירועים שנסגרו -->
         <section class="orders-section" style="margin-top:40px;">
-            <h2>✅ אירועים שנסגרו</h2>
+            <div class="events-header">
+                <h2>✅ אירועים שנסגרו</h2>
+                <div class="view-toggle">
+                    <button id="view-table-btn" class="view-btn active" onclick="switchView('table')">📋 טבלה</button>
+                    <button id="view-cal-btn"   class="view-btn"        onclick="switchView('calendar')">📅 לוח שנה</button>
+                </div>
+            </div>
             <div id="events-container"><div class="loading">טוען…</div></div>
+            <div id="calendar-container" class="hidden"></div>
         </section>
     </main>
 </div>
