@@ -75,7 +75,7 @@ export async function generateInvite(formData, basePath = '', bgFile = 'invite/i
                 const ageY    = nameY + S * 1.44;
                 const ageSize = S * 1.25;
                 ctx.font = `${ageSize}px ${FONT}`;
-                const ageW = ctx.measureText(formData.celebrantAge).width + S * 1.2;
+                const ageW = ctx.measureText(formData.celebrantAge).width + S * 0.5;
                 drawPill(ageY, ageW, ageSize * 2.2, '#fff', 0.55);
                 ctx.fillStyle = PINK;
                 ctx.fillText(formData.celebrantAge, cx, ageY);
