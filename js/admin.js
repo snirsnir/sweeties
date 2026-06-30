@@ -301,36 +301,68 @@ window.deleteOrder = async (id, name) => {
 };
 
 // ── Demo invite preview ───────────────────────────────────────────
-window.previewDemoInvite = async () => {
-    const demoData = {
-        celebrantName: 'שניר',
-        celebrantAge:  '9',
-        celebrant:     'שניר, גיל 9',
-        street:        'חצבים',
-        streetNum:     '31',
-        apt:           '',
-        city:          'רמת ישי',
-        address:       'חצבים 31, רמת ישי',
-        date:          '2026-07-09',
-        time:          '17:00',
-    };
+const DEMO_TEMPLATES = [
+    { file: 'invite/invite.png', label: 'Sweeties' },
+    { file: 'invite/gabby.jpg',  label: 'גבי' },
+    { file: 'invite/kpop.jpg',   label: 'K-Pop' },
+    { file: 'invite/stitch.jpg', label: "סטיץ'" },
+    { file: 'invite/tiktok.jpg', label: 'טיקטוק' },
+    { file: 'invite/unicorn.jpg', label: 'חד קרן' },
+];
+const DEMO_DATA = {
+    celebrantName: 'שניר', celebrantAge: '9', celebrant: 'שניר, גיל 9',
+    street: 'חצבים', streetNum: '31', apt: '', city: 'רמת ישי',
+    address: 'חצבים 31, רמת ישי', date: '2026-07-09', time: '17:00',
+};
+let demoSelectedTemplate = 'invite/invite.png';
 
+window.previewDemoInvite = () => {
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;';
-    overlay.innerHTML = `<div style="position:relative;max-width:420px;width:100%;text-align:center;">
-        <p style="color:white;margin-bottom:12px;font-family:Heebo,Arial;">⏳ מייצר הזמנה לדוגמא...</p>
-    </div>`;
+    overlay.id = 'demo-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;';
+
+    const tmplCards = DEMO_TEMPLATES.map(t => `
+        <div class="tmpl-card ${t.file === demoSelectedTemplate ? 'selected' : ''}"
+             data-file="${t.file}"
+             onclick="selectDemoTemplate('${t.file}')"
+             style="cursor:pointer;">
+            <img src="${t.file}" alt="${t.label}">
+            <span>${t.label}</span>
+        </div>`).join('');
+
+    overlay.innerHTML = `
+        <div style="position:relative;max-width:480px;width:100%;background:white;border-radius:20px;padding:24px;direction:rtl;font-family:Heebo,Arial;">
+            <button onclick="document.getElementById('demo-overlay').remove()"
+                style="position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;background:#f3f4f6;border:none;font-size:16px;cursor:pointer;">✕</button>
+            <h3 style="margin:0 0 16px;color:#7c3aed;">🎉 הזמנה לדוגמא</h3>
+            <div class="invite-templates" style="margin-bottom:16px;">${tmplCards}</div>
+            <div id="demo-preview-wrap" style="text-align:center;">
+                <p style="color:#9ca3af;font-size:13px;margin-bottom:10px;">לחצי על עיצוב לתצוגה מקדימה</p>
+            </div>
+        </div>`;
+
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.body.appendChild(overlay);
 
-    const base64 = await generateInvite(demoData);
-    if (!base64) { overlay.remove(); alert('שגיאה ביצירת הדגמה'); return; }
-
-    overlay.innerHTML = `<div style="position:relative;max-width:420px;width:100%;">
-        <img src="${base64}" style="width:100%;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-        <button onclick="this.closest('div[style]').remove()" style="position:absolute;top:-14px;left:-14px;width:34px;height:34px;border-radius:50%;background:white;border:none;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>`;
+    // generate default
+    generateDemoPreview();
 };
+
+window.selectDemoTemplate = async (file) => {
+    demoSelectedTemplate = file;
+    document.querySelectorAll('#demo-overlay .tmpl-card').forEach(c =>
+        c.classList.toggle('selected', c.dataset.file === file));
+    await generateDemoPreview();
+};
+
+async function generateDemoPreview() {
+    const wrap = document.getElementById('demo-preview-wrap');
+    if (!wrap) return;
+    wrap.innerHTML = '<p style="color:#9ca3af;font-size:13px;">⏳ מייצר...</p>';
+    const base64 = await generateInvite(DEMO_DATA, '', demoSelectedTemplate);
+    if (!base64) { wrap.innerHTML = '<p style="color:red;">שגיאה ביצירת הדגמה</p>'; return; }
+    wrap.innerHTML = `<img src="${base64}" style="width:100%;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.15);">`;
+}
 
 // ── Invite preview lightbox ───────────────────────────────────────
 window.previewInvite = id => {
